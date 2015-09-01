@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Eloquent;
@@ -11,6 +12,6 @@ class Product extends Eloquent
 
     public function stock()
     {
-        return $this->hasOne('App\Stock', 'product_code', 'code');
+        return $this->hasOne('App\Models\Stock');
     }
 }

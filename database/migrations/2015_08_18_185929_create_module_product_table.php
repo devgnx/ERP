@@ -14,10 +14,9 @@ class CreateModuleProductTable extends Migration
     {
         Schema::create('ModuleProduct', function(Blueprint $table){
             $table->increments('id');
-            $table->string('code')->unique()->index();
-            $table->string('sku')->index();
-            $table->string('name')->index();
-            $table->decimal('price', 11, 2);
+            $table->string('code')->unique();
+            $table->string('name');
+            $table->decimal('price', 10, 2);
             $table->string('slug')->unique();
             $table->timestamps();
         });

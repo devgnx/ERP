@@ -147,8 +147,7 @@ return [
         /*
          * Custom Application Service Providers...
          */
-        Caffeinated\Menus\MenusServiceProvider::class,
-
+        Lavary\Menu\ServiceProvider::class,
     ],
 
     /*
@@ -196,7 +195,12 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
-        'Menu'      => Caffeinated\Menus\Facades\Menu::class,
+
+        /*
+         * Custom Application Aliases...
+         */
+        'Menu'      => Lavary\Menu\Facade::class,
+        'Str'       => Illuminate\Support\Str::class
 
     ],
 

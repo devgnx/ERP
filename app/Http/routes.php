@@ -10,17 +10,15 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::get('/', function () {
+Route::get('/', ['as' => 'home', 'uses' => function () {
     return view('welcome');
+}]);
+
+require_once(__DIR__ . '/Routes/ProductRoutes.php');
+require_once(__DIR__ . '/Routes/SaleRoutes.php');
+
+Menu::make('nav', function($menu){
+    $menu->add('Home', ['route' => 'home']);
+    $menu->add('Produtos', ['route' => 'product.index']);
+    $menu->add('Vendas', ['route' => 'sale.index']);
 });
-
-Route::bind('product', function($slug){
-    return App\Models\Product::whereSlug($slug)->first();
-});
-
-Route::get('produtos', 'ProductsController@index');
-
-Route::get('produto/{product}', 'ProductsController@show');
-
-Route::get('produtos/{product}/editar', 'ProductsController@edit');
-

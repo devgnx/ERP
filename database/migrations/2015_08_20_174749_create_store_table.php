@@ -12,7 +12,7 @@ class CreateStoreTable extends Migration
      */
     public function up()
     {
-        Schema::create('Store', function(Boilerplate $table){
+        Schema::create('Store', function(Blueprint $table){
             $table->increments('id');
             $table->string('name');
             $table->string('title');
