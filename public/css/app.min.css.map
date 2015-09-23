@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "",
-"sources": [],
+"mappings": "AAEA,4DAC0C,CACxC,OAAO,CAAE,IAAI,CAGf,yCAA4C,CAC1C,OAAO,CAAE,KAAK",
+"sources": ["../../resources/assets/sass/app.scss"],
 "names": [],
 "file": "app.min.css"
 }

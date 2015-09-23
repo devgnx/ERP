@@ -10,7 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::get('/', ['as' => 'home', 'uses' => function () {
+Route::get('/', ['middleware' => 'auth', 'as' => 'home', 'uses' => function () {
     return view('welcome');
 }]);
 

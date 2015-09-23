@@ -1,2 +1,11 @@
 // @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+#login-form.inactive,
+#login-form.active + #reset-password-form {
+  display: none;
+}
+
+#login-form.inactive + #reset-password-form {
+  display: block;
+}
+

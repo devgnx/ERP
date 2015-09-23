@@ -8,24 +8,18 @@
     <p class="browsehappy">Você está usando um navegador <strong>ultrapassado</strong>. Por favor <a href="http://browsehappy.com/"><strong>Atualize seu navegador</strong></a> para ter uma melhor experiência.</p>
   <![endif]-->
 
-{{--
-  <div style="height: 0; width: 0; position: absolute; visibility: hidden">
-    @include('partials.svgicons')
-  </div>
- --}}
-
   <div class="ls-login-parent">
     <div class="ls-login-inner">
       <div class="ls-login-container">
         <div class="ls-login-box">
-          <h1 class="ls-login-logo"><img title="Logo login" src="../../../assets/images/locastyle/logo-locaweb.jpg" /></h1>
-          <form role="form" class="ls-form ls-login-form" action="#">
+          <h1 class="ls-login-logo">Entrar</h1>
+          <form id="login-form" role="form" class="ls-form ls-login-form active" action="{{ route('auth.login') }}">
             <fieldset>
               {!! csrf_field() !!}
 
               <label class="ls-label">
-                <b class="ls-label-text ls-hidden-accessible">Usuário</b>
-                <input name="email" value="{{ old('email') }}" class="ls-login-bg-user ls-field-lg" type="text" placeholder="Usuário" required autofocus>
+                <b class="ls-label-text ls-hidden-accessible">Email</b>
+                <input name="email" value="{{ old('email') }}" class="ls-login-bg-user ls-field-lg" type="text" placeholder="Email" required autofocus>
               </label>
 
               <label class="ls-label">
@@ -36,9 +30,24 @@
                 </div>
               </label>
 
-              <p><a class="ls-login-forgot" href="forgot-password">Esqueci minha senha</a></p>
+              <p><a class="ls-login-forgot" data-toggle-class="active inactive" data-target="#login-form" href="#">Esqueci minha senha</a></p>
 
               <input type="submit" value="Entrar" class="ls-btn-primary ls-btn-block ls-btn-lg">
+
+            </fieldset>
+          </form>
+
+          <form id="reset-password-form" role="form" class="ls-form ls-login-form" action="#">
+            <fieldset>
+              {!! csrf_field() !!}
+
+              <label class="ls-label">
+                <b class="ls-label-text ls-hidden-accessible">Email</b>
+                <input name="email" value="{{ old('email') }}" class="ls-login-bg-user ls-field-lg" type="text" placeholder="Email" required autofocus>
+              </label>
+
+              <button data-toggle-class="active inactive" data-target="#login-form" class="ls-btn-danger">Cancelar</button>
+              <button type="submit" class="ls-btn-primary ls-float-right">Enviar</button>
 
             </fieldset>
           </form>

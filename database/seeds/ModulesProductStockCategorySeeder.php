@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 
 use Faker\Factory as Faker;
 
-use App\Models\Product as Product;
+use App\Models\Product;
 use App\Models\ProductStock as Stock;
 use App\Models\ProductCategory as Category;
 

@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         \Eloquent::unguard();
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
+        $this->call(UserSeeder::class);
         $this->call(ModulesProductStockCategorySeeder::class);
         $this->call(ModuleSellerSeeder::class);
 
