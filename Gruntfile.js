@@ -1,10 +1,108 @@
+var gulp   = require('gulp'),
+    elixir = require('laravel-elixir');
+
 module.exports = function(grunt) {
   'use strict';
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    properties: grunt.file.readJSON('properties.json'),
+    path: grunt.file.readJSON('path.json'),
 
+    clean: ['<%= path.temp %>'],
+
+    /**
+     * Sass task
+     * @type {Object}
+     */
+    sass: {
+      default: {
+        options: { style: 'compressed' },
+        files: [{
+          expand: true,
+          cwd: '<%= path.src.sass %>',
+          src: ['!app.scss', '**/*.scss'],
+          dest: '<%= path.dist.css %>',
+          ext: '.min.css'
+        }]
+      },
+      app: {
+        options: {
+          sourcemap: 'none',
+          style: 'compressed'
+        },
+        files: {
+          '<%= path.temp %>/app.css': '<%= path.src.sass %>/app.scss'
+        }
+      }
+    },
+
+    /**
+     * Stylesheets minification
+     * @type {Object}
+     */
+    cssmin: {
+      _app_files: [
+        '<%= path.vendor %>/normalize-css/normalize.css',
+        '<%= path.vendor %>/locawebstyle/dist/stylesheets/locastyle.css',
+        '<%= path.temp %>/app.css'
+      ],
+      app: {
+        files: {
+          '<%= path.dist.css %>/app.min.css': '<%= cssmin._app_files %>',
+        }
+      }
+    },
+
+    /**
+     * Copy files
+     * @type {Object}
+     */
+    copy: {
+      fonts: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= path.vendor %>/locawebstyle/dist/stylesheets/fonts',
+          src: ['*.ttf', '*.woff'],
+          dest: '<%= path.dist.css %>/fonts'
+        }]
+      }
+    },
+
+    /**
+     * Uglify scripts
+     * @type {Object}
+     */
+    uglify: {
+      options: {
+        mangle: false,
+        preserveComments: false
+      },
+      _app_files: [
+        '<%= path.vendor %>/jquery/dist/jquery.min.js',
+        '<%= path.vendor %>/locawebstyle/dist/javascripts/locastyle.js',
+        '<%= path.src.js %>/app.js'
+      ],
+      app: {
+        files: {
+          '<%= path.dist.js %>/app.min.js': '<%= uglify._app_files %>'
+        }
+      },
+      _products_files: [
+        '<%= path.src.js %>/lib/products.js',
+        '<%= path.src.js %>/products.js'
+      ],
+      products: {
+        files: {
+          '<%= path.dist.js %>/products.min.js': '<%= uglify._products_files %>'
+        }
+      }
+    },
+
+    /**
+     * Merge SVGs.
+     * @type {Object}
+     */
     svgstore: {
       options: {
         prefix : 'shape-',
@@ -12,178 +110,106 @@ module.exports = function(grunt) {
           style: 'display: none;'
         }
       },
-      default: {
+      icons: {
         files: {
-          "<%= properties.dist %>/img/default_svg.svg": ["<%= properties.assets %>/img/svg"]
+          '<%= path.views %>/partials/svgicons.blade.php': ['<%= path.src.svg %>/icons/*.svg']
         }
       },
     },
 
-    /* bower install */
-    bower: {
-      install: {
-        options: {
-          targetDir: '<%= properties.lib %>',
-          layout: 'byComponent',
-          install: true,
-          verbose: false,
-          cleanTargetDir: true,
-          cleanBowerDir: true,
-          bowerOptions: {}
-        }
-      }
-    },
-
-    /* clean directories */
-    clean: [
-      '<%= properties.dist %>/css',
-      '<%= properties.dist %>/img',
-      '<%= properties.dist %>/js',
-      '<%= properties.dist %>/lib'
-    ],
-
-    /* prepares the configuration to transform specific construction (blocks)
-    in the scrutinized file into a single line, targeting an optimized version
-    of the files (e.g concatenated, uglifyjs-ed ...) */
-    /*useminPrepare: {
-      html: '<%= properties.app %>/index.html',
-        options: {
-          dest: '<%= properties.dist %>'
-        }
-    },*/
-
-    /* html minification */
-    /*htmlmin: {
-      dist: {
-        // It´s not work, so I use grunt-html-minify
-        //options: {
-        //  removeComments: true,
-        //  collapseWhitespace: true
-        //},
-        files: [{
-          expand: true,
-          cwd: '<%= properties.app %>',
-          src: ['*.html'],
-          dest: '<%= properties.dist %>'
-        }]
-      }
-    },*/
-
-    /* image minification */
+    /**
+     * Images minification
+     * @type {Object}
+     */
     imagemin: {
-      dist: {
+      img: {
         files: [{
           expand: true,
-          cwd: '<%= properties.assets %>/img',
-          src: '{,*/}*.{ico,png,jpg,jpeg,gif,webp,svg}',
-          dest: '<%= properties.dist %>/img'
+          cwd: '<%= path.src.img %>',
+          src: ['{,*/}*.{ico,png,jpg,jpeg,gif,webp}'],
+          dest: '<%= path.dist.img %>'
         }]
       }
     },
 
-    /* cssmin */
-    /* is not necessary to declare */
-
-    /* js file minification */
-    uglify: {
-      options: {
-        preserveComments: false
-      }
-    },
-
-    /* create dir fonts */
-    mkdir: {
-      all: {
+    /**
+     * Watch files
+     * @type {Object}
+     */
+    watch: {
+      sass: {
+        files: ['<%= path.src.sass %>/**/*.scss'],
+        tasks: ['clean', 'sass', 'cssmin', 'clean'],
         options: {
-          create: ['<%= properties.dist %>/img']
-        },
-      },
-    },
-
-    /* put files not handled in other tasks here */
-    copy: {
-      dist: {
-        files: [{
-          expand: true,
-          dot: true,
-          cwd: '<%= properties.app %>',
-          dest: '<%= properties.dist %>',
-          src: ['*.txt', '.htaccess']
-        }, {
-          /* fonts */
-          expand: true,
-          dot: true,
-          cwd: '<%= properties.lib %>/locawebstyle/dist/stylesheets/fonts',
-          dest: '<%= properties.dist %>/css/fonts',
-          src: ['*.ttf', '*.woff']
-        }]
-      }
-    },
-
-    /* cache busting */
-    rev: {
-      options: {
-        encoding: 'utf8',
-        algorithm: 'md5',
-        length: 8
-      },
-      files: {
-        src: [
-          '<%= properties.dist %>/js/{,*/}*.js',
-          '<%= properties.dist %>/css/{,*/}*.css',
-          '<%= properties.dist %>/img/{,*/}*.{ico,png,jpg,jpeg,gif,webp,svg}'
-        ]
-      }
-    },
-
-    /* replace links to minificated files */
-    /*usemin: {
-      html: ['<%= properties.dist %>/index.html'],
-        options: {
-          dirs: ['<%= properties.dist %>']
+          livereload: true
         }
-    },*/
-
-    /* html minification */
-    /*html_minify: {
-      options: { },
-      all: {
-        files:[{
-          expand: true,
-          cwd: '<%= properties.dist %>',
-          src: ['*.html'],
-          dest: '<%= properties.dist %>',
-          ext:'.html'
-        }]
+      },
+      js_app: {
+        files: '<%= uglify._app_files %>',
+        tasks: ['uglify:app'],
+        options: {
+          livereload: true
+        }
+      },
+      js_products: {
+        files: '<%= uglify._products_files %>',
+        tasks: ['uglify:products'],
+        options: {
+          livereload: true
+        }
+      },
+      fonts: {
+        files: [
+          '<%= path.vendor %>/locawebstyle/dist/stylesheets/fonts{*.ttf, *.woff}'
+        ],
+        tasks: ['copy:fonts'],
+        options: {
+          livereload: true
+        }
+      },
+      svg: {
+        files: ['<%= path.src.svg %>**/*.svg'],
+        tasks: ['svgstore'],
+        options: {
+          livereload: true
+        }
+      },
+      img: {
+        files: [
+          '<%= path.src.img %>/**/*.{ico,png,jpg,jpeg,gif,webp,svg}',
+        ],
+        tasks: ['imagemin:img'],
+        options: {
+          livereload: true
+        }
+      },
+      tests: {
+        files: ['./app/Http/Controllers/*.php', './app/Models/*.php'],
+        tasks: ['phpunit'],
+        options: {
+          livereload: true
+        }
       }
-    }*/
-
+    }
   });
 
   // Loading dependencies
   for (var key in grunt.file.readJSON('package.json').devDependencies) {
-    if (key !== 'grunt' && key.indexOf('grunt') === 0) {
+    if (key !== 'grunt' && key.indexOf('grunt') == 0) {
       grunt.loadNpmTasks(key);
     }
   }
 
-  // tasks
   grunt.registerTask('build', [
     'clean',
-    //'useminPrepare',
-    //'htmlmin',
-    'imagemin',
-    //'concat',
+    'sass',
     'cssmin',
-    'uglify',
-    'mkdir',
     'copy',
-    'rev',
-    //'usemin',
-    //'html_minify'
+    'uglify',
+    'svgstore',
+    'imagemin',
+    'clean'
   ]);
 
-  grunt.registerTask('default', [
-    'build'
-  ]);
+  grunt.registerTask('default', ['build']);
 };

@@ -1,19 +1,25 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ControllerTrait;
 
-use App\Respositories\SaleRepository as Sale;
+use App\Http\Controllers\Traits\ViewTrait;
+use App\Repositories\SaleRepository as Sale;
 
 class SaleController extends Controller
 {
-    use ControllerTrait;
+    use ViewTrait;
 
     private $viewFolder = 'sale_controller';
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -40,7 +46,7 @@ class SaleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  ValidationSaleRequest  $request
      * @return Response
      */
     public function store(ValidationSaleRequest $request)
@@ -53,7 +59,7 @@ class SaleController extends Controller
 
         return redirect('sale.show')
             ->withInput($request->input('id', $sale->id))
-            ->with('sale.status', 'Venda fechada');
+            ->with('status', ['success' => 'Venda fechada']);
     }
 
     /**
@@ -81,16 +87,16 @@ class SaleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
+     * @param  ValidationSaleRequest  $request
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(ValidationSaleRequest $request, $id)
     {
-        Product::update($request->input('sale'), $id);
+        Sale::update($request->input('sale'), $id);
 
-        return redirect('product.edit')
-            ->with('product.status', 'Produto Alterado')
+        return redirect('sale.edit')
+            ->with('status', ['success' => 'Venda alterado'])
             ->withInput();
     }
 
@@ -102,9 +108,9 @@ class SaleController extends Controller
      */
     public function destroy($id)
     {
-        Product::delete($id);
+        Sale::delete($id);
 
         return redirect('sale.index')
-            ->with('product.status', 'Produto Removido');
+            ->with('status', ['success' => 'Venda removida']);
     }
 }

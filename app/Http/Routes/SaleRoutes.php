@@ -1,28 +1,28 @@
 <?php
 
-Route::get('vendas', [
+Route::get('sales', [
     'as'   => 'sale.index',
     'uses' => 'SaleController@index'
 ]);
 
-Route::group(['prefix' => 'venda'], function() {
+Route::group(['prefix' => 'sale'], function() {
 
-    Route::get('criar', [
+    Route::get('create', [
         'as'   => 'sale.create',
         'uses' => 'SaleController@create'
     ]);
 
-    Route::post('criar', [
+    Route::post('create', [
         'as'   => 'sale.store',
         'uses' => 'SaleController@store'
     ]);
 
-    Route::get('{id}/editar', [
+    Route::get('{id}/edit', [
         'as'   => 'sale.edit',
         'uses' => 'SaleController@edit'
     ]);
 
-    Route::post('{id}/editar', [
+    Route::post('{id}/edit', [
         'as'   => 'sale.update',
         'uses' => 'SaleController@update'
     ]);

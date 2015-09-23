@@ -1,42 +1,42 @@
 <?php
 
-Route::get('produtos', [
+Route::get('products', [
     'as'   => 'product.index',
     'uses' => 'ProductController@index'
 ]);
 
-Route::group(['prefix' => 'produto'], function() {
+Route::group(['prefix' => 'product'], function() {
 
-    Route::bind('product', function($slug) {
+    Route::bind('product_slug', function($slug) {
         return App\Models\Product::whereSlug($slug)->first();
     });
 
-    Route::get('criar', [
+    Route::get('create', [
         'as'   => 'product.create',
         'uses' => 'ProductController@create'
     ]);
 
-    Route::post('criar', [
+    Route::post('create', [
         'as'   => 'product.store',
         'uses' => 'ProductController@store'
     ]);
 
-    Route::get('{product}/editar', [
+    Route::get('{product_slug}/edit', [
         'as'   => 'product.edit',
         'uses' => 'ProductController@edit'
     ]);
 
-    Route::post('{product}/editar', [
+    Route::post('{product_slug}/edit', [
         'as'   => 'product.update',
         'uses' => 'ProductController@update'
     ]);
 
-    Route::post('{product}/editar/preco', [
+    Route::post('{product_slug}/edit/price', [
         'as' => 'product.edit.price',
         'uses' => 'ProductController@updatePrice'
     ]);
 
-    Route::get('{product}', [
+    Route::get('{product_slug}', [
         'as'   => 'product.show',
         'uses' => 'ProductController@show'
     ]);

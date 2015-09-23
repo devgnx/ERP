@@ -6,25 +6,33 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\ControllerTrait;
 
-use App\Respositories\ProductRepository as Product;
+use App\Http\Controllers\Traits\ViewTrait;
+use App\Repositories\ProductRepository as Product;
 
 class ProductController extends Controller
 {
-    use ControllerTrait;
+    use ViewTrait;
 
     private $viewFolder = 'product_controller';
+    private $product;
+
+    public function __construct(Product $product)
+    {
+        $this->middleware('auth');
+        $this->product = $product;
+        $this->fixViewFolder($this->viewFolder);
+    }
 
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index(Product $product)
+    public function index()
     {
         return view($this->viewFolder . 'index', [
-            'products' => $product::paginate(20)
+            'products' => $this->product->paginate(20)
         ]);
     }
 
@@ -35,20 +43,18 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view($this->viewFolder . 'create', [
-            'product' => ''
-        ]);
+        return view($this->viewFolder . 'create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  ValidationProductRequest  $request
      * @return Response
      */
     public function store(ValidationProductRequest $request)
     {
-        $product = Product::create($request->input('product'));
+        $product = $this->product->create($request->input('product'));
 
         /*$product = new Product;
         $product->name  = $request->input('product.name');
@@ -60,45 +66,49 @@ class ProductController extends Controller
         dd($product);
 
         return redirect('product.show')
-            ->withInput($request->input('id', $product->id))
-            ->with('product.status', 'Produto Criado');
+            ->withInput($request->input('slug', $product->slug))
+            ->with('status', ['success' => 'Produto Criado']);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        return view($this->viewFolder . 'show', ['product' => Product::find($id)]);
+        return view($this->viewFolder . 'show', [
+            'product' => $this->product->where('slug', $slug)
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  class Models\Product $product
      * @return Response
      */
-    public function edit($id)
+    public function edit($product)
     {
-        return view($this->viewFolder . 'edit', ['product' => Product::find($id)]);
+        return view($this->viewFolder . 'edit', ['product' => $product]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param  ValidationProductRequest  $request
+     * @param  string  $slug
      * @return Response
      */
-    public function update(ValidationProductRequest $request, $id)
+    public function update(ValidationProductRequest $request, $slug)
     {
-        Product::update($request->input('product'), $id);
+        $product = $this->product
+            ->where('slug', $slug)
+            ->update( $request->input('product') );
 
-        return redirect('product.edit')
-            ->with('product.status', 'Produto Alterado')
+        return redirect('product.show')
+            ->with('status', ['success' => 'Produto "' . $product->name . '" alterado'])
             ->withInput();
     }
 
@@ -116,13 +126,15 @@ class ProductController extends Controller
         ]);
 
         if (!$validator->fails()) {
-            $product = Product::update(['price' => $request->input('product.price')], $id);
+            $product = $this->product->update([
+                'price' => $request->input('product.price')
+            ], $id);
         }
 
         return response()->json([
             'data' => $validator ?
-                ['status' => 'success'] :
-                ['status' => 'error', 'message' => $validate->errors()->all()]
+                ['status' => ['success' => true] ] :
+                ['status' => ['error' => $validate->errors()->all()] ]
         ]);
     }
 
@@ -134,9 +146,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        Product::delete($id);
+        $this->product->delete($id);
 
         return redirect('product.index')
-            ->with('product.status', 'Produto Removido');
+            ->with('status', ['success' => 'Produto Removido']);
     }
 }

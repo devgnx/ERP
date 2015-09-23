@@ -1,0 +1,18 @@
+{
+  "assets": "./resources/assets",
+  "views": "./resources/views",
+  "temp": "./resources/assets/temp",
+  "vendor": "./resources/assets/vendor",
+  "src": {
+    "sass": "./resources/assets/sass",
+    "css": "./resources/assets/stylesheets",
+    "js": "./resources/assets/javascripts",
+    "img": "./resources/assets/images",
+    "svg": "./resources/assets/svg"
+  },
+  "dist": {
+    "css": "./public/css",
+    "js": "./public/js",
+    "img": "./public/img"
+  }
+}

@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\SaleRepository as Sale;
+
+use Illuminate\Database\Schema\Blueprint;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,15 @@ class AppServiceProvider extends ServiceProvider
         ];
 
         \View::share('main', $main);
+
+        // Sales
+        $sales = \App::make('App\Repositories\SaleRepository');
+
+        if ( \Schema::hasTable($sales->getTable()) ) {
+            \View::share('sales', $sales->all());
+        } else {
+            \View::share('sales', []);
+        }
     }
 
     /**

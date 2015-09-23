@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class ValidationProductsRequest extends Request
+class ValidationSaleRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.

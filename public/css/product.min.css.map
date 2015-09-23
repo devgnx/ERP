@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEA,WAAY,CACV,SAAS,CAAE,IAAI,CACf,cAAc,CAAE,MAAM,CAEtB,+BACU,CACR,MAAM,CAAE,IAAI,CACZ,WAAW,CAAE,IAAI,CAGnB,gBAAO,CACL,OAAO,CAAE,YAAY,CACrB,SAAS,CAAE,IAAI,CAGjB,iBAAQ,CACN,KAAK,CAAE,IAAI,CACX,WAAW,CAAE,MAAM",
+"sources": ["../../resources/assets/sass/product.scss"],
+"names": [],
+"file": "product.min.css"
+}

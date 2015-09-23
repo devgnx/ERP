@@ -14,11 +14,7 @@ Route::get('/', ['as' => 'home', 'uses' => function () {
     return view('welcome');
 }]);
 
+require_once(__DIR__ . '/Routes/AuthRoutes.php');
 require_once(__DIR__ . '/Routes/ProductRoutes.php');
 require_once(__DIR__ . '/Routes/SaleRoutes.php');
-
-Menu::make('nav', function($menu){
-    $menu->add('Home', ['route' => 'home']);
-    $menu->add('Produtos', ['route' => 'product.index']);
-    $menu->add('Vendas', ['route' => 'sale.index']);
-});
+require_once(__DIR__ . '/Routes/SellerRoutes.php');

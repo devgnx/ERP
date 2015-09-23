@@ -1,43 +1,36 @@
 @extends('main')
 
+@section('head')
+  <link rel="stylesheet" href="{{ url('/') }}/css/product.min.css">
+@endsection
+
 @section('content')
   <div class="container-fluid">
-    @if (session('messages.products.status'))
-      @if (session('messages.products.status.success'))
-        <div class="ls-alert-success"><strong>Sucesso!</strong> {{ session('messages.products.status.success') }}!</div>
-      @endif
-
-      @if (session('messages.products.status.info'))
-        <div class="ls-alert-info"><strong>Atenção:</strong> {{ session('messages.products.status.info') }}</div>
-      @endif
-
-      @if (session('messages.products.status.warning'))
-        <div class="ls-alert-warning"><strong>Cuidado:</strong> {{ session('messages.products.status.warning') }}</div>
-      @endif
-
-      @if (session('messages.products.status.danger'))
-        <div class="ls-alert-danger"><strong>Vish!</strong> {{ session('messages.products.status.danger') }}</div>
-      @endif
-    @endif
-    <table class="ls-table">
+    @include('partials.messages')
+    <table class="ls-table" data-ls-module="form">
       <tbody>
         @foreach($products as $product)
           <tr>
-            <td>
+            {{-- <td>
               @if (isset($product->image))
                 <img src="{{ $product->image }}">
               @endif
-            </td>
+            </td> --}}
             <td>
-              <div>{{ $product->code }}</div>
-              <div>{{ $product->name }}</div>
+              <a href="{{ route('product.edit', ['id' => $product->slug]) }}">
+                <div>{{ $product->code }}</div>
+                <div>{{ $product->name }}</div>
+              </a>
             </td>
             <td>
               <div class="edit-price">
-                <span class="edit-price--trigger">{{ $product->price }}</span>
-                <div class="edit-price--form" data-url="{{ route('product.edit.price', $product->slug) }}" style="display:none">
-                  <input class="edit-price--input" name="product[{{ $product->id }}][price]" value="{{ $product->price }}">
-                  <button class="edit-price--submit" type="submit">Salvar</button>
+                <span class="edit-price-trigger">
+                  R$ {{ str_replace('.', ',', $product->price) }}
+                </span>
+                <div class="edit-price-form" data-url="{{ route('product.edit.price', $product->slug) }}" style="display:none">
+                  R$ <input class="edit-price-input ls-mask-money" name="product[{{ $product->id }}][price]" value="{{ $product->price }}">
+                  <button class="edit-price-submit ls-btn-primary ls-ico-checkmark" type="submit"></button>
+                  <button class="edit-price-cancel ls-btn-danger ls-ico-close" type="submit"></button>
                 </div>
               </div>
             </td>
@@ -50,6 +43,5 @@
 
 
 @section('scripts')
-  <script src="lib/app/products.js"></script>
-  <script src="js/products.js"></script>
+  <script src="{{ url('/') }}/js/products.min.js"></script>
 @endsection

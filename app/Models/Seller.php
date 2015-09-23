@@ -6,7 +6,12 @@ use Eloquent;
 
 class Seller extends Eloquent
 {
-    protected $table = 'Seller';
+    protected $table = 'module_seller';
+
+    public function user()
+    {
+        $this->belongsTo('App\Models\User');
+    }
 
     public function order()
     {
