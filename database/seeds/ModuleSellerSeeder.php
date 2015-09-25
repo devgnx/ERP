@@ -3,8 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use Faker\Factory as Faker;
-
-use App\Models\Seller as Seller;
+use App\Models\Seller;
 
 class ModuleSellerSeeder extends Seeder
 {
@@ -29,22 +28,8 @@ class ModuleSellerSeeder extends Seeder
                 'slug'  => $faker->slug
             ])->id;
 
-            /*$user_id = rand(1, 25);
-
-            // Inserts random seller with random category if not exists
-            DB::table('module_user_seller_pivot')
-                ->where('seller_id', '<>', $seller_id)
-                ->where('user_id', '<>', $user_id)
-                ->insert([
-                    'seller_id' => $seller_id,
-                    'user_id' => $user_id
-                ]);
-
-            // Inserts random seller with first category for tests
-            DB::table('module_seller_category_pivot')->insert([
-                'seller_id' => $seller_id,
-                'user_id' => 1
-            ]);*/
         }
+
+        DB::table('module_seller')->where('id', 1)->update(['user_id' => 1]);
     }
 }

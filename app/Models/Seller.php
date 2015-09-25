@@ -10,16 +10,16 @@ class Seller extends Eloquent
 
     public function user()
     {
-        $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function order()
     {
-        $this->hasMany('App\Models\SaleOrder');
+        return $this->hasMany('App\Models\SaleOrder');
     }
 
     public function orderItem()
     {
-        $this->hasManyThrough('App\Models\SaleOrderItem', 'App\Models\SaleOrder');
+        return $this->hasManyThrough('App\Models\SaleOrderItem', 'App\Models\SaleOrder');
     }
 }

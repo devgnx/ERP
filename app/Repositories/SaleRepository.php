@@ -26,7 +26,7 @@ class SaleRepository extends Repository
 
     public function getNewSales()
     {
-        if ($user = \Sentinel::getUser()) {
+        if ($user = false) {
             dd($user->getNotificationsNotRead());
 
             $notifications = $user->getNotificationsNotRead();

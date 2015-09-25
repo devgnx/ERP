@@ -13,13 +13,16 @@
       <div class="ls-login-container">
         <div class="ls-login-box">
           <h1 class="ls-login-logo">Entrar</h1>
-          <form id="login-form" role="form" class="ls-form ls-login-form active" action="{{ route('auth.login') }}">
+          <form id="login-form" role="form" class="ls-form ls-login-form active" action="{{ route('auth.login') }}" method="post">
             <fieldset>
+              @if ( $errors->first('email') )
+                <div class="ls-alert-danger">{{ $errors->first('email') }}</div>
+              @endif
               {!! csrf_field() !!}
 
               <label class="ls-label">
                 <b class="ls-label-text ls-hidden-accessible">Email</b>
-                <input name="email" value="{{ old('email') }}" class="ls-login-bg-user ls-field-lg" type="text" placeholder="Email" required autofocus>
+                <input name="email" value="{{ old('email') }}" class="ls-login-bg-user ls-field-lg" type="email" placeholder="Email" required autofocus>
               </label>
 
               <label class="ls-label">
@@ -29,6 +32,14 @@
                   <a class="ls-label-text-prefix ls-toggle-pass ls-ico-eye" data-toggle-class="ls-ico-eye, ls-ico-eye-blocked" data-target="#password_field" href="#"></a>
                 </div>
               </label>
+
+              <p>
+                {{-- <a class="ls-login-forgot" data-toggle-class="active inactive" data-target="#login-form" href="#">Lembrar de mim</a> --}}
+                <label class="ls-label hs-login-remember">
+                  <input name="remember" value="{{ old('remember') }}" type="checkbox">
+                  <span>Lembrar de mim</span>
+                </label>
+              </p>
 
               <p><a class="ls-login-forgot" data-toggle-class="active inactive" data-target="#login-form" href="#">Esqueci minha senha</a></p>
 

@@ -10,12 +10,12 @@ class SaleOrder extends Eloquent
 
     public function seller()
     {
-        $this->belongsTo('App\Models\Seller');
+        return $this->belongsTo('App\Models\Seller');
     }
 
     public function items()
     {
-        $this->hasMany('App\Models\SaleOrderItems');
+        return $this->hasMany('App\Models\SaleOrderItems');
     }
 
     public function getTable()

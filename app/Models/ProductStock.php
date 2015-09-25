@@ -12,6 +12,6 @@ class ProductStock extends Eloquent
 
     public function product()
     {
-        $this->belongsTo('App\Models\Product');
+        return $this->belongsTo('App\Models\Product');
     }
 }

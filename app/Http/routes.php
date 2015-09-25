@@ -11,7 +11,11 @@
 |
 */
 Route::get('/', ['middleware' => 'auth', 'as' => 'home', 'uses' => function () {
-    return view('welcome');
+    return view('dashboard_controller.index');
+}]);
+
+Route::get('/dashboard', ['middleware' => 'auth', 'as' => 'dashboard', 'uses' => function () {
+    return view('dashboard_controller.index');
 }]);
 
 require_once(__DIR__ . '/Routes/AuthRoutes.php');

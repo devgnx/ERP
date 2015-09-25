@@ -19,13 +19,12 @@
 
     <div data-ls-module="dropdown" class="ls-dropdown ls-user-account">
       <a href="#" class="ls-ico-user">
-        Connor Hawkins
-        <small>(lstyle)</small>
+        {{ $user->name }}
       </a>
       <nav class="ls-dropdown-nav ls-user-menu">
         <ul>
           <li><a href="#">Conta</a></li>
-          <li><a href="#">Logout</a></li>
+          <li><a href="{{ route('auth.logout') }}">Logout</a></li>
         </ul>
       </nav>
     </div>
@@ -35,32 +34,7 @@
 
   <h1 class="ls-brand-name">
     <a class="ls-ico-earth" href="/locawebstyle/documentacao/exemplos/boilerplate">
-      {{ $main->nav->title }}
+      {{ $store->name }}
     </a>
   </h1>
-</div>
-
-<div id="new-sale-modal" class="ls-modal">
-  <div class="ls-modal-box">
-
-    <div class="ls-modal-header">
-      <button data-dismiss="modal">&times;</button>
-      <h4 class="ls-modal-title">Nova Venda</h4>
-    </div>
-
-    <form action="{{ route('sale.store') }}">
-      <div class="ls-modal-body" id="new-sale-modal-body">
-        <div class="row"></div>
-        <div class="row"></div>
-        <div class="row"></div>
-        <div class="row"></div>
-      </div>
-
-      <div class="ls-modal-footer">
-        <button class="ls-btn-primary ls-float-right" type="submit">Salvar</button>
-        <button class="ls-btn" data-dismiss="modal">Fechar</button>
-      </div>
-    </form>
-
-  </div>
 </div>

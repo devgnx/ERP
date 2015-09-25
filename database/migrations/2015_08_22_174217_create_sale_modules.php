@@ -12,11 +12,17 @@ class CreateSaleModules extends Migration
      */
     public function up()
     {
-         Schema::create('module_seller', function(Blueprint $table){
+        Schema::create('module_seller', function(Blueprint $table) {
             $table->increments('id');
             $table->string('code')->unique();
+            $table->integer('user_id')->unsigned()->unique()->nullable();
             $table->string('name');
             $table->string('slug')->unique();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
+
             $table->timestamps();
         });
 

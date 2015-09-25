@@ -1,5 +1,0 @@
-{
-  "lib"  : "../public/lib",
-  "app"  : "views",
-  "dist" : "dist"
-}

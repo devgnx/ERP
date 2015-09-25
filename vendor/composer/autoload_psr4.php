@@ -30,8 +30,6 @@ return array(
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'ClassPreloader\\' => array($vendorDir . '/classpreloader/classpreloader/src'),
-    'Cartalyst\\Support\\' => array($vendorDir . '/cartalyst/support/src'),
-    'Cartalyst\\Sentinel\\' => array($vendorDir . '/cartalyst/sentinel/src'),
     'Bosnadev\\Repositories\\' => array($vendorDir . '/bosnadev/repositories/src'),
     'App\\' => array($baseDir . '/app'),
 );

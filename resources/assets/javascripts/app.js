@@ -22,9 +22,9 @@
   // Object.create support test, and fallback for browsers without it
   if ( typeof Object.create !== "function" ) {
     Object.create = function (o) {
-      function F() {}
-      F.prototype = o;
-      return new F();
+        function F() {}
+        F.prototype = o;
+        return new F();
     };
   }
 
@@ -32,7 +32,13 @@
     $.fn[name] = function( options ) {
       return this.each(function() {
         if ( ! $.data( this, name ) ) {
-          $.data( this, name, Object.create(object).init(
+          if ( typeof object !== "function" ) {
+            object = Object.create( object );
+          } else {
+            object = new object;
+          }
+
+          $.data( this, name, object.init(
           options, this ) );
         }
       });

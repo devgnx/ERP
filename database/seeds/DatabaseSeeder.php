@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(ModulesProductStockCategorySeeder::class);
         $this->call(ModuleSellerSeeder::class);
+        $this->call(ModuleStoreSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         \Eloquent::reguard();

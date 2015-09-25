@@ -81,7 +81,10 @@ module.exports = function(grunt) {
       _app_files: [
         '<%= path.vendor %>/jquery/dist/jquery.min.js',
         '<%= path.vendor %>/locawebstyle/dist/javascripts/locastyle.js',
-        '<%= path.src.js %>/app.js'
+        '<%= path.vendor %>/handlebars/handlebars.min.js',
+        '<%= path.src.js %>/app.js',
+        '<%= path.src.js %>/sales.lib.js',
+        '<%= path.src.js %>/sales.js',
       ],
       app: {
         files: {
@@ -89,7 +92,7 @@ module.exports = function(grunt) {
         }
       },
       _products_files: [
-        '<%= path.src.js %>/lib/products.js',
+        '<%= path.src.js %>/products.lib.js',
         '<%= path.src.js %>/products.js'
       ],
       products: {

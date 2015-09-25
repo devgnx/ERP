@@ -1,6 +1,0 @@
-{
-  "app"  : "resources/views",
-  "assets": "resources/assets",
-  "lib"  : "resources/assets/lib",
-  "dist" : "public"
-}

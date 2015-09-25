@@ -20,8 +20,7 @@ class Product extends Eloquent
         return $this->belongsToMany(
             'App\Models\ProductCategory',
             'module_product_in_category',
-            'product_id',
-            'category_id'
+            'product_id'
         );
     }
 }

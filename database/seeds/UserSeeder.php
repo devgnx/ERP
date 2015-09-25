@@ -15,15 +15,10 @@ class UserSeeder extends Seeder
     {
         User::truncate();
 
-        $registred = Sentinel::registerAndActivate([
+        $registred = User::create([
+            'name'     => 'Admin',
             'email'    => 'dev.highlander.bros@gmail.com',
-            'password' => 'parana134'
+            'password' => bcrypt('parana134')
         ]);
-
-        if ($registred) {
-            $user = User::find($registred->id);
-            $user->first_name = 'Admin';
-            $user->save();
-        }
     }
 }

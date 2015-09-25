@@ -4,7 +4,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<title>{{ $main->title }}</title>
+<title>{{ $store->title }}</title>
 
 <link rel="stylesheet" href="{{ url('/') }}/css/app.min.css">
 

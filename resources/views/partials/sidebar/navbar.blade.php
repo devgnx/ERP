@@ -16,10 +16,5 @@
             Vendedores
         </a>
     </li>
-    <!-- <li><a href="{{ $main->menu->home }}" class="ls-ico-home">Página inicial</a></li>
-    <li><a href="{{ $main->menu->home }}" class="ls-ico-home">Página inicial</a></li>
-    <li><a href="{{ $main->menu->home }}" class="ls-ico-home">Página inicial</a></li>
-    <li><a href="{{ $main->menu->home }}" class="ls-ico-home">Página inicial</a></li>
-    <li><a href="{{ $main->menu->home }}" class="ls-ico-home">Página inicial</a></li> -->
   </ul>
 </nav>

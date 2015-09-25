@@ -81,7 +81,7 @@ class SaleController extends Controller
      */
     public function edit($id)
     {
-        return view($this->viewFolder . 'edit', ['sale' => Sale::find($id)])
+        return view($this->viewFolder . 'edit', ['sale' => Sale::find($id)]);
     }
 
     /**

@@ -9,3 +9,15 @@
   display: block;
 }
 
+#login-form .hs-login-remember {
+  margin-top: 4px;
+}
+
+#login-form .hs-login-remember span,
+#login-form .hs-login-remember input {
+  vertical-align: middle;
+}
+
+#new-sale-modal table:first-of-type {
+  margin-top: 0;
+}

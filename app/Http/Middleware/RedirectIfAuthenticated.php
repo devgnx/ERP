@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use Sentinel;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
@@ -35,9 +34,8 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next)
     {
-        //if ($this->auth->check()) {
-        if (Sentinel::check()) {
-            return redirect('/home');
+        if ($this->auth->check()) {
+            return redirect('/dashboard');
         }
 
         return $next($request);
