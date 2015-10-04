@@ -21,8 +21,8 @@ class ModuleStoreSeeder extends Seeder
 
         Store::truncate();
         Store::create([
-            'name'  => $faker->name,
-            'title' => $faker->name
+            'name'  => $faker->company,
+            'title' => $faker->company
         ])->id;
     }
 }

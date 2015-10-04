@@ -6,7 +6,7 @@ trait ViewTrait
 {
     public function __construct()
     {
-        $this->fixViewFolder($this->viewFolder);
+        $this->setViewFolder($this->viewFolder);
     }
 
     public function getViewFolder()
@@ -21,6 +21,7 @@ trait ViewTrait
 
     private function fixViewFolder($viewFolder)
     {
+
         if (strpos($this->viewFolder, -1) != '.') {
             $this->viewFolder = $viewFolder . '.';
         } else {

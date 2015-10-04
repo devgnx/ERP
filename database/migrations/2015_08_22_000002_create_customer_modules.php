@@ -21,7 +21,6 @@ class CreateCustomerModules extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('group_id')->unsigned();
-            $table->timestamps();
 
             $table->foreign('group_id')
                 ->references('id')

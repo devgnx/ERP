@@ -29,16 +29,18 @@
   }
 
   $.plugin = function( name, object ) {
+    var newObject;
+
     $.fn[name] = function( options ) {
       return this.each(function() {
         if ( ! $.data( this, name ) ) {
           if ( typeof object !== "function" ) {
-            object = Object.create( object );
+            newObject = Object.create( object );
           } else {
-            object = new object;
+            newObject = new object;
           }
 
-          $.data( this, name, object.init(
+          $.data( this, name, newObject.init(
           options, this ) );
         }
       });

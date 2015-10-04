@@ -18,12 +18,12 @@ class CreateSaleModules extends Migration
             $table->integer('user_id')->unsigned()->unique()->nullable();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->timestamps();
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');
 
-            $table->timestamps();
         });
 
         Schema::create('module_sale_shipping', function (Blueprint $table) {
@@ -31,7 +31,6 @@ class CreateSaleModules extends Migration
             $table->integer('address_id')->unsigned();
             $table->date('shipping_date')->nullable();
             $table->decimal('shipping_price', 10, 2)->nullable();
-            $table->timestamps();
 
             $table->foreign('address_id')
                 ->references('id')
@@ -64,7 +63,6 @@ class CreateSaleModules extends Migration
             $table->increments('id');
             $table->integer('product_id')->unsigned();
             $table->integer('sale_order_id')->unsigned();
-            $table->timestamps();
 
             $table->foreign('sale_order_id')
                 ->references('id')

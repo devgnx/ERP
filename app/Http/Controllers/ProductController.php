@@ -6,15 +6,21 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Validator;
 
 use App\Http\Controllers\Traits\ViewTrait;
 use App\Repositories\ProductRepository as Product;
+use App\Models\ProductCategory as Category;
+
+use App\Http\Requests\ValidationProductRequest;
+
+use App\Extensions\HSThreePresenter as PaginatePresenter;
 
 class ProductController extends Controller
 {
     use ViewTrait;
 
-    private $viewFolder = 'product_controller';
+    private $viewFolder = 'controllers.product';
     private $product;
 
     public function __construct(Product $product)
@@ -29,10 +35,54 @@ class ProductController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
+    {
+        if ($request->input('filter')) {
+            $products = $this->filter($request)->paginate(2);
+        } else {
+            $products = $this->product->paginate(2);
+        }
+
+        return view($this->viewFolder . 'index', [
+            'products'   => $products,
+            'categories' => Category::all(),
+            'filter'     => $request->input('filter'),
+            'paginate'   => $products->render(new PaginatePresenter($products))
+        ]);
+    }
+
+
+    private function filter(Request $request)
+    {
+        $produt = $this->product;
+        $filter = $request->input('filter');
+
+        if ($filter['name']) {
+            $product->where('name', $filter['name']);
+        }
+
+        if ($filter['categories']) {
+            $product->with(['categories' => function($query) {
+                $query->whereIn('id', $filter['categories']);
+            }]);
+        }
+
+        return $product;
+    }
+
+
+    /**
+     * Display a listing of the filtred resource.
+     *
+     * @return Response
+     */
+    public function search($request)
     {
         return view($this->viewFolder . 'index', [
-            'products' => $this->product->paginate(20)
+            'products' => $this->product
+                ->with('categories')
+                ->find('')
+                ->paginate(20)
         ]);
     }
 
@@ -71,19 +121,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  string  $slug
-     * @return Response
-     */
-    public function show($slug)
-    {
-        return view($this->viewFolder . 'show', [
-            'product' => $this->product->where('slug', $slug)
-        ]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  class Models\Product $product
@@ -91,13 +128,16 @@ class ProductController extends Controller
      */
     public function edit($product)
     {
-        return view($this->viewFolder . 'edit', ['product' => $product]);
+        return view($this->viewFolder . 'edit', [
+            'product' => $product,
+            'categories' => Category::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  ValidationProductRequest  $request
+     * @param  App\Http\Requests\Request  $request
      * @param  string  $slug
      * @return Response
      */
@@ -106,6 +146,15 @@ class ProductController extends Controller
         $product = $this->product
             ->where('slug', $slug)
             ->update( $request->input('product') );
+
+        $category_ids = [];
+        foreach ($request->input('category') as $id => $val) {
+            $category_ids[] = $id;
+        }
+
+        $test = $product->categories->sync($category_ids);
+
+        dd($test);
 
         return redirect('product.show')
             ->with('status', ['success' => 'Produto "' . $product->name . '" alterado'])
@@ -121,20 +170,26 @@ class ProductController extends Controller
      */
     public function updatePrice(Request $request, $id)
     {
-        $validator = Validator::make($request, [
-            'product.price' => 'required|decimal:10,2'
-        ]);
+        $validator = Validator::make($request->all(), []);
+        $friendly_names = [];
+
+        foreach($request->get('product') as $id => $value) {
+            $validator->mergeRules("product.{$id}.price", ['required', 'regex:/^\d{1,3}(\.\d{3})*(\,\d{2})?$/']);
+            $friendly_names["product.{$id}.price"] = 'PREÇO';
+        }
+
+        $validator->setAttributeNames($friendly_names);
 
         if (!$validator->fails()) {
             $product = $this->product->update([
-                'price' => $request->input('product.price')
+                'price' => str_replace(',', '.', str_replace('.', '', $request->input("product.{$id}.price") ) )
             ], $id);
         }
 
         return response()->json([
-            'data' => $validator ?
+            'data' => !$validator->fails() ?
                 ['status' => ['success' => true] ] :
-                ['status' => ['error' => $validate->errors()->all()] ]
+                ['status' => ['error'   => $validator->errors()->all()] ]
         ]);
     }
 

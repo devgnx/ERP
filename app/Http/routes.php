@@ -11,14 +11,15 @@
 |
 */
 Route::get('/', ['middleware' => 'auth', 'as' => 'home', 'uses' => function () {
-    return view('dashboard_controller.index');
+    return view('controllers.dashboard.index');
 }]);
 
 Route::get('/dashboard', ['middleware' => 'auth', 'as' => 'dashboard', 'uses' => function () {
-    return view('dashboard_controller.index');
+    return view('controllers.dashboard.index');
 }]);
 
 require_once(__DIR__ . '/Routes/AuthRoutes.php');
 require_once(__DIR__ . '/Routes/ProductRoutes.php');
+require_once(__DIR__ . '/Routes/SupplierRoutes.php');
 require_once(__DIR__ . '/Routes/SaleRoutes.php');
 require_once(__DIR__ . '/Routes/SellerRoutes.php');

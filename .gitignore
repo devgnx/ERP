@@ -3,3 +3,5 @@ resources/assets/temp
 /node_modules
 Homestead.yaml
 .env
+
+_briefing/

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Blade;
 use App\Models\Store;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,7 +29,6 @@ class ViewComposerServiceProvider extends ServiceProvider
                 view()->share('seller', null);
             }
 
-
             $sales = \App::make('App\Repositories\SaleRepository');
             if ( \Schema::hasTable($sales->getTable()) ) {
                 view()->share('sales', $sales->all());
@@ -36,7 +36,6 @@ class ViewComposerServiceProvider extends ServiceProvider
                 view()->share('sales', null);
             }
         });
-
     }
 
     /**

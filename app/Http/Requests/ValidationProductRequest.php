@@ -25,7 +25,7 @@ class ValidationProductRequest extends Request
     {
         return [
             'name'  => 'required',
-            'code'  => 'required|unique'
+            'code'  => 'required|unique',
             'price' => 'required|decimal:10,2'
         ];
     }

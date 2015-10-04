@@ -8,6 +8,7 @@
         </a>
         <ul>
             <li><a href="{{ route('product.index') }}">Produtos</a></li>
+            <li><a href="{{ route('supplier.index') }}">Fornecedores</a></li>
             <li><a href="{{ route('product.index') }}">Estoque</a></li>
         </ul>
     </li>

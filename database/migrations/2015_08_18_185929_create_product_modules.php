@@ -19,13 +19,13 @@ class CreateProductModules extends Migration
             $table->decimal('price', 10, 2);
             $table->string('slug')->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('module_product_category', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('parent_id')->nullable();
             $table->string('name');
-            $table->timestamps();
         });
 
         Schema::create('module_product_stock', function(Blueprint $table){
@@ -33,7 +33,6 @@ class CreateProductModules extends Migration
             $table->integer('product_id')->unsigned()->unique();
             $table->string('sku');
             $table->integer('quantity');
-            $table->timestamps();
 
             $table->foreign('product_id')
                 ->references('id')
@@ -45,7 +44,6 @@ class CreateProductModules extends Migration
             $table->increments('id');
             $table->integer('product_id')->unsigned();
             $table->integer('category_id')->unsigned();
-            $table->timestamps();
 
             $table->foreign('product_id')
                 ->references('id')

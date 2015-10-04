@@ -5,6 +5,7 @@ Route::get('products', [
     'uses' => 'ProductController@index'
 ]);
 
+
 Route::group(['prefix' => 'product'], function() {
 
     Route::bind('product_slug', function($slug) {
@@ -36,8 +37,8 @@ Route::group(['prefix' => 'product'], function() {
         'uses' => 'ProductController@updatePrice'
     ]);
 
-    Route::get('{product_slug}', [
-        'as'   => 'product.show',
-        'uses' => 'ProductController@show'
+    Route::post('{product_slug}/destroy', [
+        'as' => 'product.destroy',
+        'uses' => 'ProductController@destroy'
     ]);
 });

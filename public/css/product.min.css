@@ -1,2 +1,2 @@
-.edit-price{font-size:23px;vertical-align:middle}.edit-price,.edit-price-trigger{height:36px;line-height:36px}.edit-price-form{display:inline-block;max-width:100%}.edit-price-input{width:70px;line-height:normal}
+.edit-price{position:relative;font-size:23px;vertical-align:middle}.edit-price,.edit-price-trigger{height:36px;line-height:36px}.edit-price-form{display:inline-block;max-width:100%}.edit-price-input{width:70px;line-height:normal}.edit-price-popover{top:50%;left:0;position:absolute}.edit-price-info{display:inline-block;vertical-align:top;width:15px;height:15px;color:#999;font-size:9px;line-height:14px;text-align:center;background-color:white;border:1px solid #c4c4c4;border-radius:50%}
 /*# sourceMappingURL=product.min.css.map */

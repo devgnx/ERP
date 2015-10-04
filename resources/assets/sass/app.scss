@@ -21,3 +21,12 @@
 #new-sale-modal table:first-of-type {
   margin-top: 0;
 }
+
+input[readonly] {
+  border-color: #eee;
+  background-color: #f7f7f7;
+}
+
+.clearfix {
+  clear: both;
+}

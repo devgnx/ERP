@@ -14,11 +14,14 @@ class SellerController extends Controller
 {
     use ViewTrait;
 
-    private $viewFolder = 'seller_controller';
+    private $viewFolder = 'controllers.seller';
+    private $seller;
 
-    public function __construct()
+    public function __construct(Seller $seller)
     {
         $this->middleware('auth');
+        $this->seller = $seller;
+        $this->fixViewFolder($this->viewFolder);
     }
 
     /**

@@ -15,6 +15,6 @@ class SaleOrderItem extends Eloquent
 
     public function seller()
     {
-        return $this->->order()->belongsTo('App\Models\Seller')
+        return $this->order()->belongsTo('App\Models\Seller')
     }
 }

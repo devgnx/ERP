@@ -7,8 +7,8 @@ use Eloquent;
 class ProductCategory extends Eloquent
 {
     protected $table = 'module_product_category';
-
     protected $fillable = ['name', 'parent_id'];
+    public $timestamps = false;
 
     public function products()
     {

@@ -185,14 +185,14 @@ module.exports = function(grunt) {
         options: {
           livereload: true
         }
-      },
+      }/*,
       tests: {
         files: ['./app/Http/Controllers/*.php', './app/Models/*.php'],
         tasks: ['phpunit'],
         options: {
           livereload: true
         }
-      }
+      }*/
     }
   });
 
