@@ -1,8 +1,8 @@
 /resources/assets/vendor
 /resources/assets/temp
-/node_modules
+/node_modules/
 /.env
-/.sass-cache
+/.sass-cache/
 /tests/
 /_briefing/
 /storage/
