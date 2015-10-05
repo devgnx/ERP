@@ -39,7 +39,7 @@ class Product extends Eloquent
 
     public function hasCategory( $category_id )
     {
-        foreach($this->categories() as $value) {
+        foreach($this->categories as $value) {
             if ($value['id'] == $category_id) return true;
         }
 

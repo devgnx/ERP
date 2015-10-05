@@ -19,7 +19,7 @@
               url: null
             },
             selectors: (function() {
-              var prefix = '.edit-price';
+              var prefix = '.hs-product-edit-price';
 
               return {
                 wrapper: prefix,

@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 
 use App\Http\Controllers\Traits\ViewTrait;
-use App\Repositories\ProductRepository as Product;
+use App\Models\Product;
 use App\Models\ProductCategory as Category;
 
 use App\Http\Requests\ValidationProductRequest;
@@ -37,37 +37,44 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->input('filter')) {
-            $products = $this->filter($request)->paginate(2);
-        } else {
-            $products = $this->product->paginate(2);
-        }
+        $products = $this->product->paginate(2);
 
         return view($this->viewFolder . 'index', [
             'products'   => $products,
             'categories' => Category::all(),
-            'filter'     => $request->input('filter'),
             'paginate'   => $products->render(new PaginatePresenter($products))
         ]);
     }
 
-
-    private function filter(Request $request)
+    /**
+     * Display a filtered listing of the resource.
+     *
+     * @return Response
+     */
+    public function filter(Request $request)
     {
-        $produt = $this->product;
-        $filter = $request->input('filter');
+        $filter   = array_filter($request->input('filter'));
+        $products = $this->product;
 
-        if ($filter['name']) {
-            $product->where('name', $filter['name']);
+        if (!empty($filter['product']['name'])) {
+            $products = $products
+                ->where('name', 'like', '%' . $filter['product']['name'] . '%')
+                ->orWhere('code', 'like', '%' . $filter['product']['name'] . '%');
+
+        } elseif (!empty($filter['category'])) {
+             $products = $products->whereHas('categories', function($query) use ($filter) {
+                $query->whereIn('category_id', $filter['category']);
+            });
         }
 
-        if ($filter['categories']) {
-            $product->with(['categories' => function($query) {
-                $query->whereIn('id', $filter['categories']);
-            }]);
-        }
+        $products = $products->paginate(2);
 
-        return $product;
+        return view($this->viewFolder . 'index', [
+            'products'   => $products,
+            'categories' => Category::all(),
+            'filter'     => $filter,
+            'paginate'   => $products->appends($request->input())->render(new PaginatePresenter($products))
+        ]);
     }
 
 

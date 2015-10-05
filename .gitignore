@@ -1,7 +1,8 @@
-resources/assets/vendor
-resources/assets/temp
+/resources/assets/vendor
+/resources/assets/temp
 /node_modules
-Homestead.yaml
-.env
-
-_briefing/
+/.env
+/.sass-cache
+/tests/
+/_briefing/
+/storage/

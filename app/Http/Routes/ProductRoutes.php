@@ -5,6 +5,10 @@ Route::get('products', [
     'uses' => 'ProductController@index'
 ]);
 
+Route::get('products/filter', [
+    'as'   => 'product.filter',
+    'uses' => 'ProductController@filter'
+]);
 
 Route::group(['prefix' => 'product'], function() {
 

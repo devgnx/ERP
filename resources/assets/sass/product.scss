@@ -1,6 +1,45 @@
 @import "../vendor/bourbon/app/assets/stylesheets/_bourbon.scss";
 
-.edit-price {
+.hs-product-filter-field {
+  .ls-label {
+    margin-right: 0;
+    width: 100%;
+
+  }
+
+  @media screen and (max-width: 472px) {
+    float: none !important;
+  }
+
+  @media screen and (min-width: 473px) {
+    .ls-label {
+      margin: 0;
+    }
+  }
+}
+
+.hs-product-filter-search {
+  @media screen and (max-width: 500px) {
+    width: 100% !important;
+    float: none !important;
+  }
+}
+
+.hs-product-filter-buttons > * {
+  vertical-align: middle;
+}
+
+.hs-product-category-label {
+    @media screen and (min-width: 571px) and (max-width: 767px), screen and (min-width: 901px) {
+      width: 25%;
+    }
+
+    @media screen and (max-width: 570px), screen and (min-width: 768px) and (max-width: 900px) {
+      width: 100%;
+    }
+}
+
+.hs-product-edit-price {
   position: relative;
   font-size: 23px;
   vertical-align: middle;
