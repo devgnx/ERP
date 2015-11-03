@@ -20,7 +20,7 @@ class CreateCustomerModules extends Migration
         Schema::create('module_customer_type', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('group_id')->unsigned();
+            $table->integer('group_id')->nullable()->unsigned();
 
             $table->foreign('group_id')
                 ->references('id')
@@ -32,7 +32,7 @@ class CreateCustomerModules extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('phone');
-            $table->integer('type_id')->unsigned();
+            $table->integer('type_id')->nullable()->unsigned();
             $table->timestamps();
 
             $table->foreign('type_id')
@@ -47,7 +47,7 @@ class CreateCustomerModules extends Migration
             $table->string('street_number');
             $table->string('state_province');
             $table->string('country');
-            $table->string('zip_code');
+            $table->string('postcode');
             $table->timestamps();
 
             $table->foreign('customer_id')

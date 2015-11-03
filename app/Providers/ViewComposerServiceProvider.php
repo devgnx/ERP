@@ -5,6 +5,7 @@ namespace App\Providers;
 use Blade;
 use App\Models\Store;
 use Illuminate\Support\ServiceProvider;
+use App\Models\Sale;
 
 class ViewComposerServiceProvider extends ServiceProvider
 {
@@ -15,25 +16,22 @@ class ViewComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer(['partials.topbar', 'partials.head'], function($view) {
+        view()->composer('*', function($view) {
+
+            if (\Auth::user()) {
+                view()->share('user', \Auth::user());
+                view()->share('seller', \Auth::user()->seller);
+            }
+
             view()->share('store', Store::first());
         });
 
         view()->composer('partials.topbar', function($view) {
-            $user = \Auth::user();
-            view()->share('user', $user);
-
-            if ( !empty($user->seller()->id) ) {
-                view()->share('seller', $user->seller());
-            } else {
-                view()->share('seller', null);
-            }
-
-            $sales = \App::make('App\Repositories\SaleRepository');
+            $sales = \App::make(Sale::class);
             if ( \Schema::hasTable($sales->getTable()) ) {
-                view()->share('sales', $sales->all());
+                view()->share('newSales', $sales->getNewSales( \Auth::user() ));
             } else {
-                view()->share('sales', null);
+                view()->share('newSales', null);
             }
         });
     }

@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Eloquent;
+use App\Models\Sale;
+use App\Models\User;
+use App\Models\SaleItem;
 
 class Seller extends Eloquent
 {
@@ -10,16 +13,16 @@ class Seller extends Eloquent
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function order()
+    public function sale()
     {
-        return $this->hasMany('App\Models\SaleOrder');
+        return $this->hasMany(Sale::class);
     }
 
-    public function orderItem()
+    public function saleItem()
     {
-        return $this->hasManyThrough('App\Models\SaleOrderItem', 'App\Models\SaleOrder');
+        return $this->hasManyThrough(SaleItem::class, Sale::class);
     }
 }

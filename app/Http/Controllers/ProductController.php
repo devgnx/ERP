@@ -14,8 +14,6 @@ use App\Models\ProductCategory as Category;
 
 use App\Http\Requests\ValidationProductRequest;
 
-use App\Extensions\HSThreePresenter as PaginatePresenter;
-
 class ProductController extends Controller
 {
     use ViewTrait;
@@ -37,12 +35,11 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = $this->product->paginate(2);
-
+        $products = $this->product->paginate(15);
         return view($this->viewFolder . 'index', [
             'products'   => $products,
             'categories' => Category::all(),
-            'paginate'   => $products->render(new PaginatePresenter($products))
+            'paginate'   => $this->renderPaginate($products)
         ]);
     }
 
@@ -62,12 +59,12 @@ class ProductController extends Controller
                 ->orWhere('code', 'like', '%' . $filter['product']['name'] . '%');
 
         } elseif (!empty($filter['category'])) {
-             $products = $products->whereHas('categories', function($query) use ($filter) {
+            $products = $products->whereHas('categories', function($query) use ($filter) {
                 $query->whereIn('category_id', $filter['category']);
             });
         }
 
-        $products = $products->paginate(2);
+        $products = $products->paginate(15);
 
         return view($this->viewFolder . 'index', [
             'products'   => $products,
@@ -173,31 +170,57 @@ class ProductController extends Controller
      *
      * @param  Request  $request
      * @param  int  $id
-     * @return Response
+     * @return json
      */
-    public function updatePrice(Request $request, $id)
+    public function updatePrice(Request $request)
     {
-        $validator = Validator::make($request->all(), []);
-        $friendly_names = [];
+        $rules = [
+            'id' => 'required|numeric',
+            'product.price' => 'required|regex:/^\d{1,3}(\.\d{3})*(\,\d{2})?$/'
+        ];
 
-        foreach($request->get('product') as $id => $value) {
-            $validator->mergeRules("product.{$id}.price", ['required', 'regex:/^\d{1,3}(\.\d{3})*(\,\d{2})?$/']);
-            $friendly_names["product.{$id}.price"] = 'PREÇO';
-        }
+        $friendly_names = ['product.price' => 'PREÇO'];
 
+        $validator = Validator::make($request->all(), $rules);
         $validator->setAttributeNames($friendly_names);
 
-        if (!$validator->fails()) {
-            $product = $this->product->update([
-                'price' => str_replace(',', '.', str_replace('.', '', $request->input("product.{$id}.price") ) )
-            ], $id);
+        if (! $validator->fails()) {
+            $price   = str_replace(',', '.', str_replace('.', '', $request->input("product.price")) );
+            $product = $this->product->where('id', $request->input('id'))->update(['price' => $price ]);
         }
 
-        return response()->json([
-            'data' => !$validator->fails() ?
-                ['status' => ['success' => true] ] :
-                ['status' => ['error'   => $validator->errors()->all()] ]
+        return response()->json(
+            ! $validator->fails() ?
+            ['status' => ['success' => true] ] :
+            ['status' => ['error'   => $validator->errors()->all()] ]
+        );
+    }
+
+    /**
+     * Loads the products with the matched query
+     * @param  Request $request
+     * @return json
+     */
+    public function load(Request $request)
+    {
+        $response  = ['suggestions' => []];
+        $validator = $this->validate($request, [
+            'query' => 'required'
         ]);
+
+        $sellers = $this->product
+            ->where('name' ,  'like', '%' . $request->input('query') . '%')
+            ->orWhere('code', 'like', '%' . $request->input('query') . '%');
+
+        foreach($sellers->get() as $value) {
+            $response['suggestions'][] = [
+                'value' => $value->code . ': ' . $value->name,
+                'data'  => $value->id,
+                'price' => $value->price
+            ];
+        }
+
+        return response()->json($response);
     }
 
     /**

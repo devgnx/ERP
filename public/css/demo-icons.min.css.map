@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,cAAe,CACb,UAAU,CAAE,IAAI,CAEhB,iCAAmB,CACjB,OAAO,CAAE,YAAY,CACrB,UAAU,CAAE,MAAM,CAClB,UAAU,CAAE,IAAI,CAChB,aAAa,CAAE,IAAI,CAGrB,2BAAa,CACX,OAAO,CAAE,YAAY,CAErB,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,IAAI",
+"sources": ["../../resources/assets/sass/demo-icons.scss"],
+"names": [],
+"file": "demo-icons.min.css"
+}

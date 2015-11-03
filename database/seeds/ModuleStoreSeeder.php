@@ -1,15 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
 use Faker\Factory as Faker;
-
 use App\Models\Store;
 
 class ModuleStoreSeeder extends Seeder
 {
-    private $slugs = [];
-
     /**
      * Run the database seeds.
      *
@@ -23,6 +19,6 @@ class ModuleStoreSeeder extends Seeder
         Store::create([
             'name'  => $faker->company,
             'title' => $faker->company
-        ])->id;
+        ]);
     }
 }

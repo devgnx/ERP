@@ -7,7 +7,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Http\Controllers\Traits\ViewTrait;
-use App\Repositories\SupplierRepository as Supplier;
+use App\Models\ProductCategory as Category;
+use App\Models\Supplier;
+use App\Extensions\HSThreePresenter as PaginatePresenter;
 
 class SupplierController extends Controller
 {
@@ -30,8 +32,44 @@ class SupplierController extends Controller
      */
     public function index()
     {
+        $suppliers = $this->supplier->paginate(20);
         return view($this->viewFolder  . 'index', [
-            'suppliers' => $this->supplier->paginate(20)
+            'suppliers'  => $suppliers,
+            'categories' => Category::all(),
+            'paginate'   => $this->renderPaginate($suppliers)
+        ]);
+    }
+
+    /**
+     * Display a filtered listing of the resource.
+     *
+     * @return Response
+     */
+    public function filter(Request $request)
+    {
+        $filter   = array_filter($request->input('filter'));
+        $suppliers = $this->supplier;
+
+        if (!empty($filter['supplier']['name'])) {
+            $suppliers = $suppliers
+                ->where('name', 'like', '%' . $filter['supplier']['name'] . '%')
+                ->orWhere('code', 'like', '%' . $filter['supplier']['name'] . '%');
+
+        } elseif (!empty($filter['category'])) {
+             $suppliers = $suppliers->whereHas('products', function($query) use ($filter) {
+                $query->whereHas('categories', function($query) use ($filter) {
+                    $query->whereIn('category_id', $filter['category']);
+                });
+            });
+        }
+
+        $suppliers = $suppliers->paginate(15);
+
+        return view($this->viewFolder . 'index', [
+            'suppliers'   => $suppliers,
+            'categories' => Category::all(),
+            'filter'     => $filter,
+            'paginate'   => $suppliers->appends($request->input())->render(new PaginatePresenter($suppliers))
         ]);
     }
 

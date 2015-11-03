@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Eloquent;
+use App\Models\Product;
 
 class ProductStock extends Eloquent
 {
@@ -12,6 +13,6 @@ class ProductStock extends Eloquent
 
     public function product()
     {
-        return $this->belongsTo('App\Models\Product');
+        return $this->belongsTo(Product::class);
     }
 }

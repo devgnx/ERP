@@ -1,0 +1,28 @@
+@import "../vendor/bourbon/app/assets/stylesheets/_bourbon.scss";
+
+.hs-table-sale-order {
+  &s thead th:last-child {
+    min-width: 90px;
+  }
+
+  .hs-svg-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .hs-active .hs-svg-icon:first-child {
+    display: none;
+  }
+  .hs-active .hs-svg-icon:last-child {
+    display: block;
+  }
+
+  .hs-svg-icon:last-child {
+    display: none;
+  }
+
+  &-item table {
+    margin-bottom: 30px !important;
+    width: 100%;
+  }
+}

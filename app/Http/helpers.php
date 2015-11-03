@@ -31,8 +31,8 @@ function is_current_route($route)
         return true;
       }
     }
-  } else{
-    return strpos($route, Route::current()->getName()) !== false;
+  } else {
+    return strpos(Route::current()->getName(), $route) !== false;
   }
 
   return false;

@@ -28,16 +28,16 @@ class CreateSaleModules extends Migration
 
         Schema::create('module_sale_shipping', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('address_id')->unsigned();
-            $table->date('shipping_date')->nullable();
-            $table->decimal('shipping_price', 10, 2)->nullable();
-
-            $table->foreign('address_id')
-                ->references('id')
-                ->on('module_customer_address');
+            $table->string('street');
+            $table->string('street_number');
+            $table->string('state_province');
+            $table->string('country');
+            $table->string('postcode');
+            $table->date('date')->nullable();
+            $table->decimal('price', 10, 2)->nullable();
         });
 
-        Schema::create('module_sale_order', function (Blueprint $table) {
+        Schema::create('module_sale', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('seller_id')->unsigned();
             $table->integer('customer_id')->unsigned()->nullable();
@@ -59,14 +59,16 @@ class CreateSaleModules extends Migration
                 ->on('module_sale_shipping');
         });
 
-        Schema::create('module_sale_order_items', function(Blueprint $table) {
+        Schema::create('module_sale_item', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('product_id')->unsigned();
-            $table->integer('sale_order_id')->unsigned();
+            $table->integer('sale_id')->unsigned();
+            $table->integer('quantity');
+            $table->decimal('product_price', 10, 2);
 
-            $table->foreign('sale_order_id')
+            $table->foreign('sale_id')
                 ->references('id')
-                ->on('module_sale_order');
+                ->on('module_sale');
 
             $table->foreign('product_id')
                 ->references('id')
@@ -81,8 +83,8 @@ class CreateSaleModules extends Migration
      */
     public function down()
     {
-        Schema::drop('module_sale_order_items');
-        Schema::drop('module_sale_order');
+        Schema::drop('module_sale_item');
+        Schema::drop('module_sale');
         Schema::drop('module_sale_shipping');
         Schema::drop('module_seller');
     }

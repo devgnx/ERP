@@ -66,6 +66,11 @@ module.exports = function(grunt) {
           src: ['*.ttf', '*.woff'],
           dest: '<%= path.dist.css %>/fonts'
         }]
+      },
+      autocomplete: {
+        files: {
+          '<%= path.dist.js %>/autocomplete.min.js': '<%= path.vendor %>/devbridge-autocomplete/dist/jquery.autocomplete.min.js'
+        }
       }
     },
 
@@ -81,23 +86,37 @@ module.exports = function(grunt) {
       _app_files: [
         '<%= path.vendor %>/jquery/dist/jquery.min.js',
         '<%= path.vendor %>/locawebstyle/dist/javascripts/locastyle.js',
-        '<%= path.vendor %>/handlebars/handlebars.min.js',
-        '<%= path.src.js %>/app.js',
-        '<%= path.src.js %>/sales.lib.js',
-        '<%= path.src.js %>/sales.js',
+        '<%= path.src.js %>/app.lib.js',
+        '<%= path.src.js %>/app.js'
       ],
       app: {
         files: {
-          '<%= path.dist.js %>/app.min.js': '<%= uglify._app_files %>'
+          '<%= path.dist.js %>/app.min.js': '<%= uglify._app_files %>',
         }
       },
-      _products_files: [
-        '<%= path.src.js %>/products.lib.js',
-        '<%= path.src.js %>/products.js'
+      _dashboard_files: [
+        '<%= path.vendor %>/highcharts/highcharts.js',
+        '<%= path.src.js %>/dashboard.js'
       ],
-      products: {
+      dashboard: {
         files: {
-          '<%= path.dist.js %>/products.min.js': '<%= uglify._products_files %>'
+          '<%= path.dist.js %>/dashboard.min.js' : '<%= uglify._dashboard_files %>'
+        }
+      },
+      _product_files: [
+        '<%= path.src.js %>/product.lib.js',
+        '<%= path.src.js %>/product.js',
+      ],
+      product: {
+        files: {
+          '<%= path.dist.js %>/product.lib.min.js': '<%= uglify._product_files.0 %>',
+          '<%= path.dist.js %>/product.min.js':     '<%= uglify._product_files.1 %>',
+        }
+      },
+      _sale_files : ['<%= path.src.js %>/sale.js'],
+      sale: {
+        files: {
+          '<%= path.dist.js %>/sale.min.js': '<%= uglify._sale_files %>'
         }
       }
     },
@@ -108,7 +127,8 @@ module.exports = function(grunt) {
      */
     svgstore: {
       options: {
-        prefix : 'shape-',
+        cleanup: ['fill'],
+        prefix : 'icon-',
         svg: {
           style: 'display: none;'
         }
@@ -154,9 +174,23 @@ module.exports = function(grunt) {
           livereload: true
         }
       },
-      js_products: {
-        files: '<%= uglify._products_files %>',
-        tasks: ['uglify:products'],
+      js_dashboard: {
+        files: '<%= uglify._dashboard_files %>',
+        tasks: ['uglify:dashboard'],
+        optiopns: {
+          livereload: true
+        }
+      },
+      js_product: {
+        files: '<%= uglify._product_files %>',
+        tasks: ['uglify:product'],
+        options: {
+          livereload: true
+        }
+      },
+      js_sale: {
+        files: '<%= uglify._sale_files %>',
+        tasks: ['uglify:sale'],
         options: {
           livereload: true
         }
@@ -215,4 +249,5 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('default', ['build']);
+  grunt.registerTask('nightwatch', ['build', 'watch']);
 };

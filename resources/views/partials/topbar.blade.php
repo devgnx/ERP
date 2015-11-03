@@ -3,13 +3,8 @@
   <div class="ls-notification-topbar">
     <div class="ls-alerts-list">
 
-      @if ($sales)
-        <a href="#"class="ls-ico-cart" data-ls-module="modal" data-target="#new-sale-modal"
-          @if($sales->new)
-            data-counter="{{ count($sales->new) }}"
-          @endif>
-          <span>Nova Venda</span>
-        </a>
+      @if (!empty($newSales))
+        <a href="#"class="ls-ico-cart" data-ls-module="topbarCurtain" data-target="#ls-sale-curtain" data-counter="{{ count($newSales) }}"><span>Nova Venda</span></a>
       @endif
 
       <a href="#" class="ls-ico-bell-o" data-counter="5" data-ls-module="topbarCurtain" data-target="#ls-notification-curtain"><span>Notificações</span></a>
@@ -33,7 +28,7 @@
   <span class="ls-show-sidebar ls-ico-menu"></span>
 
   <h1 class="ls-brand-name">
-    <a class="ls-ico-earth" href="/locawebstyle/documentacao/exemplos/boilerplate">
+    <a class="ls-ico-earth" href="{{ url('/') }}">
       {{ $store->name }}
     </a>
   </h1>

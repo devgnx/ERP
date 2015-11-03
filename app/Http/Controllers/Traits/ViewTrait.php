@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Traits;
 
+use App\Extensions\HSThreePresenter as PaginatePresenter;
+
 trait ViewTrait
 {
     public function __construct()
@@ -29,5 +31,10 @@ trait ViewTrait
         }
 
         return $this;
+    }
+
+    public function renderPaginate($collection)
+    {
+        return $collection->render(new PaginatePresenter($collection));
     }
 }

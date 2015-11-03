@@ -10,11 +10,17 @@ Route::get('products/filter', [
     'uses' => 'ProductController@filter'
 ]);
 
+
 Route::group(['prefix' => 'product'], function() {
 
     Route::bind('product_slug', function($slug) {
         return App\Models\Product::whereSlug($slug)->first();
     });
+
+    Route::get('load', [
+        'as'   => 'product.load',
+        'uses' => 'ProductController@load'
+    ]);
 
     Route::get('create', [
         'as'   => 'product.create',
@@ -36,7 +42,7 @@ Route::group(['prefix' => 'product'], function() {
         'uses' => 'ProductController@update'
     ]);
 
-    Route::post('{product_slug}/edit/price', [
+    Route::post('edit/price', [
         'as' => 'product.edit.price',
         'uses' => 'ProductController@updatePrice'
     ]);

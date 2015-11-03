@@ -1,51 +1,19 @@
 ;(function ( $, window, document, undefined ) {
-  $.ajaxSetup({
-    headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
+
+  $( document ).on('click', '.hs-number-container .hs-number-less', function(e) {
+    e.preventDefault();
+    var input = $(this).siblings('input'),
+        value = Number(input.val()) - 1 <= Number(input.data('min')) ? input.data('min') : Number(input.val()) - 1;
+    input.val(value).trigger('change');
+    return false;
+
+  }).on('click', '.hs-number-container .hs-number-more', function(e) {
+    e.preventDefault();
+    var input = $(this).siblings('input'),
+        value = Number(input.val()) + 1 >= Number(input.data('max')) ? input.data('max') : Number(input.val()) + 1;
+    input.val(value).trigger('change');
+    return false;
   });
-
-  $( document ).ajaxError(function( e, XHR, status, errorThrown ){
-    if (!!window.DEVSTART && window.DEVSTART == true) {
-      console.log('#')
-      console.log('#Ajax Log:')
-      console.log('XHR: ', XHR);
-      console.log('status: ', status);
-      console.log('errorThrown:', errorThrown);
-      console.log('####################');
-    }
-  });
-
-  /**
-   * Start jQuery Boilerplate
-   */
-  // Object.create support test, and fallback for browsers without it
-  if ( typeof Object.create !== "function" ) {
-    Object.create = function (o) {
-        function F() {}
-        F.prototype = o;
-        return new F();
-    };
-  }
-
-  $.plugin = function( name, object ) {
-    var newObject;
-
-    $.fn[name] = function( options ) {
-      return this.each(function() {
-        if ( ! $.data( this, name ) ) {
-          if ( typeof object !== "function" ) {
-            newObject = Object.create( object );
-          } else {
-            newObject = new object;
-          }
-
-          $.data( this, name, newObject.init(
-          options, this ) );
-        }
-      });
-    };
-  }
 
   // End jQuery Boilerplate
 })( jQuery, window, document );

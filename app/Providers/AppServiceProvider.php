@@ -3,9 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Repositories\SaleRepository as Sale;
-
 use Illuminate\Database\Schema\Blueprint;
+use App\Models\Product;
+use App\Models\Sale;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->events();
     }
 
     /**
@@ -27,5 +27,20 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    /**
+     * Register any Eloquent application events.
+     * @return void
+     */
+    private function events()
+    {
+        Product::created(function($product) {
+            $product->createNotification();
+        });
+
+        Sale::created(function($sale) {
+            $sale->createNotification();
+        });
     }
 }

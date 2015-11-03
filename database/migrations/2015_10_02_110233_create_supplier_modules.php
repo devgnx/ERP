@@ -22,7 +22,7 @@ class CreateSupplierModules extends Migration
             $table->string('street_number');
             $table->string('state_province');
             $table->string('country');
-            $table->string('zip_code');
+            $table->string('postcode');
             $table->string('slug')->unique();
             $table->timestamps();
         });

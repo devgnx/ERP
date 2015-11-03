@@ -20,7 +20,6 @@
 
   @include('partials.sidebar')
   @include('partials.notifications')
-  @include('partials.modals')
 
   @include('partials.scripts')
 </body>

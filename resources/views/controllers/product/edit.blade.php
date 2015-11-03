@@ -1,14 +1,17 @@
 @extends('main')
 
-@section('head')
-  <link rel="stylesheet" href="{{ url('/') }}/css/product.min.css">
+@section('styles')
+  <link rel="stylesheet" href="{{ url('/css/product.min.css') }}">
 @endsection
 
 @section('content')
   <div class="container-fluid">
-    <h1 class="ls-title-intro">Editar produto</h1>
+    <h1 class="ls-title-intro">
+      <svg class="hs-svg-icon"><use xlink:href="#icon-box4" /></svg>
+      Editar produto
+    </h1>
+
     @include('partials.messages')
-    @yield('before-form')
 
     <div class="ls-box">
       <header class="ls-info-header">
@@ -31,25 +34,32 @@
       <form action="{{ route('product.update', ['id' => $product->slug]) }}" data-ls-module="form" class="ls-form ls-form-horizontal row" method="post">
         {{ csrf_field() }}
         <fieldset id="products-form" class="ls-form-disable ls-form-text">
-          <label class="ls-label col-md-6 col-lg-8">
-            <b class="ls-label-text">Nome</b>
-            <input name="product[name]" class="ls-field" value="{{ $product->name }}" type="text" required>
-          </label>
-          <label class="ls-label col-md-6 col-lg-8">
-            <b class="ls-label-text">Código</b>
-            <input name="product[code]" class="ls-field" value="{{ $product->code }}" type="text" required>
-          </label>
-          <label class="ls-label col-md-6 col-lg-8">
-            <b class="ls-label-text">Preço</b>
-            <input name="product[price]" class="ls-field ls-mask-money" value="{{ $product->price }}" type="text" placeholder="0,00">
-          </label>
-
-          @if ($product->stock)
-            <label class="ls-label col-md-6 col-lg-8">
-              <b class="ls-label-text">Estoque</b>
-              <input name="stock[quantity]" class="ls-field" value="{{ $product->stock->quantity }}" type="text">
+          <div class="col-md-12">
+            <label class="ls-label col-md-4">
+              <b class="ls-label-text">Nome</b>
+              <input name="product[name]" class="ls-field" value="{{ $product->name }}" type="text" required>
             </label>
-          @endif
+            <label class="ls-label col-md-3">
+              <b class="ls-label-text">Código</b>
+              <input name="product[code]" class="ls-field" value="{{ $product->code }}" type="text" required>
+            </label>
+          </div>
+
+          <div class="col-md-12">
+            <label class="ls-label col-md-1">
+              <b class="ls-label-text">Preço</b>
+              <input name="product[price]" class="ls-field ls-mask-money" value="{{ $product->price }}" type="text" placeholder="0,00">
+            </label>
+
+            @if ($product->stock)
+              <div class="ls-label col-md-3"></div>
+              <label class="ls-label col-md-1">
+                <b class="ls-label-text">Estoque</b>
+                <input name="stock[quantity]" class="ls-field" value="{{ $product->stock->quantity }}" type="text">
+              </label>
+            @endif
+          </div>
+
           @if ($product->categories)
             <hr>
             <div class="ls-label col-md-12">

@@ -1,0 +1,30 @@
+.ls-menu {
+  .ls-active .hs-svg-icon {
+    fill: white;
+  }
+
+  .hs-svg-icon {
+    width: 20px;
+    height: 20px;
+    fill: #8c8c8c;
+
+    margin-top: -10px;
+
+    position: absolute;
+    top: 50%;
+    left: 19px;
+
+    -moz-transition: all .2s;
+    -o-transition: all .2s;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+  }
+}
+
+.ls-title-intro .hs-svg-icon {
+  width: 36px;
+  height: 36px;
+  margin-right: 14px;
+  fill: #DCDCDC;
+  vertical-align: middle;
+}

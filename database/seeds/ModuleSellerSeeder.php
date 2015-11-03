@@ -7,8 +7,6 @@ use App\Models\Seller;
 
 class ModuleSellerSeeder extends Seeder
 {
-    private $slugs = [];
-
     /**
      * Run the database seeds.
      *

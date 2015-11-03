@@ -11,8 +11,6 @@ use App\Models\ProductCategory as Category;
 
 class ModulesProductStockCategorySeeder extends Seeder
 {
-    private $slugs = [];
-
     /**
      * Run the database seeds.
      *
@@ -24,13 +22,14 @@ class ModulesProductStockCategorySeeder extends Seeder
         Product::truncate();
         Stock::truncate();
 
+        $weeks = ['add', 'sub'];
+
         $faker = Faker::create();
         $faker->addProvider(new \Faker\Provider\pt_BR\Person($faker));
         $faker->addProvider(new \Faker\Provider\pt_BR\Company($faker));
         $faker->addProvider(new \Faker\Provider\pt_BR\PhoneNumber($faker));
-        $faker->addProvider(new \Faker\Provider\Lorem($faker));
 
-        $category_length = 15;
+        $category_length = 20;
         for ($i = 1; $i <= $category_length; $i++) {
             $parent_id = (rand(0, 4) == 4) ? null : rand(1, 25);
 
@@ -51,17 +50,18 @@ class ModulesProductStockCategorySeeder extends Seeder
                 'street_number'  => $faker->buildingNumber,
                 'state_province' => $faker->state,
                 'country'  => $faker->country,
-                'zip_code' => $faker->postcode,
+                'postcode' => $faker->postcode,
                 'slug' => $faker->slug
             ]);
         }
 
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 200; $i++) {
             $product_id = Product::create([
                 'code'  => str_random(5),
                 'name'  => $faker->name,
                 'price' => $faker->randomFloat(2, 0, 100),
-                'slug'  => $faker->slug
+                'slug'  => $faker->slug,
+                'created_at' => Carbon\Carbon::now()->{$weeks[ rand(0,1) ] . 'Weeks'}(rand(0, 5))
             ])->id;
 
             Stock::create([
@@ -85,12 +85,6 @@ class ModulesProductStockCategorySeeder extends Seeder
                     'category_id' => $category_id
                 ]);
 
-            // Inserts random product with first category for tests
-            DB::table('module_product_in_category')->insert([
-                'product_id' => $product_id,
-                'category_id' => 1
-            ]);
-
 
             //////////////////////////////////////////////////////////
 
@@ -105,12 +99,6 @@ class ModulesProductStockCategorySeeder extends Seeder
                     'product_id' => $product_id,
                     'supplier_id' => $supplier_id
                 ]);
-
-            // Inserts random product with first supplier for tests
-            DB::table('module_product_in_supplier')->insert([
-                'product_id' => $product_id,
-                'supplier_id' => 1
-            ]);
         }
     }
 }

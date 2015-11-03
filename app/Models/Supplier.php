@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Eloquent;
+use App\Models\Product;
 
-class Supplier extends Model
+class Supplier extends Eloquent
 {
     protected $table = 'module_supplier';
     protected $appends = ['address'];
@@ -12,8 +13,8 @@ class Supplier extends Model
     public function products()
     {
         return $this->belongsToMany(
-            'App\Models\Product',
-            'module_product_in_supplier',
+            Product::class,
+            App::make(Product::class)->getTable(),
             'supplier_id'
         );
     }
@@ -24,7 +25,7 @@ class Supplier extends Model
         $address.= ' ' . $this->street_number;
         $address.= ' ' . $this->state_province;
         $address.= ' ' . $this->country;
-        $address.= ' ' . $this->zip_code;
+        $address.= ' ' . $this->postcode;
 
         return $address;
     }

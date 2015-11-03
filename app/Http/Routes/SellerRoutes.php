@@ -11,6 +11,11 @@ Route::group(['prefix' => 'seller'], function() {
         return App\Models\Seller::whereSlug($slug)->first();
     });
 
+    Route::get('load', [
+        'as'   => 'seller.load',
+        'uses' => 'SellerController@load'
+    ]);
+
     Route::get('create', [
         'as'   => 'seller.create',
         'uses' => 'SellerController@create'

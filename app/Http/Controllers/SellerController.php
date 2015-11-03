@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Http\Controllers\Traits\ViewTrait;
-use App\Repositories\SellerRepository as Seller;
+use App\Models\Seller;
 
 class SellerController extends Controller
 {
@@ -95,6 +95,32 @@ class SellerController extends Controller
         return redirect('seller.edit')
             ->with('status', ['success' => 'Dados do vendedor "' . $seller->name . '" alterados'])
             ->withInput();
+    }
+
+    /**
+     * Loads the sellers with the matched query
+     * @param  Request $request
+     * @return json
+     */
+    public function load(Request $request)
+    {
+        $response  = ['suggestions' => []];
+        $validator = $this->validate($request, [
+            'query' => 'required'
+        ]);
+
+        $sellers = $this->seller
+            ->where('name' ,  'like', '%' . $request->input('query') . '%')
+            ->orWhere('code', 'like', '%' . $request->input('query') . '%');
+
+        foreach($sellers->get() as $value) {
+            $response['suggestions'][] = [
+                'value' => $value->code . ': ' . $value->name,
+                'data'  => $value->id
+            ];
+        }
+
+        return response()->json($response);
     }
 
     /**

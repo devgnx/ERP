@@ -1,26 +1,5 @@
 // @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-
-#login-form.inactive,
-#login-form.active + #reset-password-form {
-  display: none;
-}
-
-#login-form.inactive + #reset-password-form {
-  display: block;
-}
-
-#login-form .hs-login-remember {
-  margin-top: 4px;
-}
-
-#login-form .hs-login-remember span,
-#login-form .hs-login-remember input {
-  vertical-align: middle;
-}
-
-#new-sale-modal table:first-of-type {
-  margin-top: 0;
-}
+@import "partials/__svg_icons.scss";
 
 input[readonly] {
   border-color: #eee;
@@ -30,3 +9,53 @@ input[readonly] {
 .clearfix {
   clear: both;
 }
+
+.hs-filter-field {
+  .ls-label {
+    margin-right: 0;
+    width: 100%;
+
+  }
+
+  @media screen and (max-width: 472px) {
+    float: none !important;
+  }
+
+  @media screen and (min-width: 473px) {
+    .ls-label {
+      margin: 0;
+    }
+  }
+}
+
+.hs-filter-search {
+  @media screen and (max-width: 500px) {
+    width: 100% !important;
+    float: none !important;
+  }
+}
+
+.hs-filter-categories {
+  @media screen and (max-width: 360px) {
+    .ls-label-text {
+      width: 100%;
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+
+  .hs-filter-reset {
+    float: right;
+  }
+
+  > * {
+    vertical-align: middle;
+  }
+}
+
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }

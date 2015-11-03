@@ -1,0 +1,38 @@
+<autorizacao xmlns="http://www.fazenda.pr.gov.br/sefaws">
+  <livroCombustivel xmlns="http://www.fazenda.pr.gov.br/sefaws">
+    <infLivroCombustivel versao="1.00"Id="LMC5600000000000000000000000000">
+      <tpAmb>2</tpAmb><cDV>0</cDV>
+      <emit>
+        <IE>00</IE><CNPJ>00000000000000</CNPJ><xNome>stab</xNome>
+      </emit>
+      <movimento dEmissao="2000-02-29">
+        <infMovimento nrProduto="9">
+          <volEstoqueAbertura>0</volEstoqueAbertura>
+
+          <volumeRecebido><!--vários -->
+            <CNPJ>00000000000000</CNPJ><nNF>10</nNF><dNF>2000-02-29</dNF>
+            <volVolume>0</volVolume><xTanque>stab1</xTanque>
+          </volumeRecebido>
+          <volumeRecebido>
+            <CNPJ>00000000000000</CNPJ><nNF>10</nNF><dNF>2000-02-29</dNF>
+            <volVolume>0</volVolume><xTanque>stab1</xTanque>
+          </volumeRecebido>
+
+          <volumeVendido><!--vários -->
+            <xTanque>st</xTanque><nrBico>0</nrBico><volFechamento>0</volFechamento>
+            <volAbertura>0</volAbertura><volAfericoes>0</volAfericoes>
+          </volumeVendido>
+
+          <volEstoqueFechamento>0</volEstoqueFechamento>
+          <valVendasDiaBomba>0</valVendasDiaBomba>
+          <valAcumuladoMes>0</valAcumuladoMes>
+          <observacoes>obs ...</observacoes>
+        </infMovimento>
+
+        <infMovimento nrProduto="10"/>
+        <infMovimento nrProduto="11"/>
+      </movimento>
+    </infLivroCombustivel>
+    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#" Id="ID61"/>
+  </livroCombustivel>
+</autorizacao>

@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use App\Http\Controllers\Traits\ViewTrait;
-use App\Repositories\SaleRepository as Sale;
+use App\Models\Sale;
+use App\Models\SaleItem;
+use App\Models\Product;
 
 class SaleController extends Controller
 {
@@ -31,8 +32,10 @@ class SaleController extends Controller
      */
     public function index(Sale $sale)
     {
+        $sales = $this->sale->full()->paginate(20);
         return view($this->viewFolder . 'index', [
-            'sales' => $sale::paginate(20)
+            'sales'    => $sales,
+            'paginate' => $this->renderPaginate($sales)
         ]);
     }
 
@@ -49,21 +52,73 @@ class SaleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  ValidationSaleRequest  $request
+     * @param  Request  $request
      * @return Response
      */
-    public function store(ValidationSaleRequest $request)
+    public function store(Request $request)
     {
-        $sale = Sale::create($request->input('sale'));
-        //$sale->save();
+        $sale_id = Sale::create([
+            'seller_id'   => $request->input('sale.seller.id'),
+            'customer_id' => $request->input('sale.customer.id'),
+            'shipping_id' => $this->createShipping($request)
+        ])->id;
 
-        echo 'test Sale' . PHP_EOL;
-        dd($sale);
+        $total_price = $this->createItems($request, $sale_id);
 
-        return redirect('sale.show')
-            ->withInput($request->input('id', $sale->id))
+        Sale::find($sale_id)->update([
+            'total_price' => $total_price
+        ]);
+
+        return redirect()
+            ->route('sale.show', ['id' => $sale_id])
             ->with('status', ['success' => 'Venda fechada']);
+   }
+
+    private function createShipping(Request $request)
+    {
+        $shipping = $request->input('sale.shipping');
+
+        if (!empty($shipping)) {
+            return SaleShipping::create([
+                'street' => $shipping['street'],
+                'street_number'  => $shipping['street_number'],
+                'state_province' => $shipping['state_province'],
+                'country'  => $shipping['country'],
+                'postcode' => $shipping['postcode'],
+                'date'     => null,
+                'price'    => $shipping['price']
+            ])->id;
+        }
+
+        return null;
     }
+
+    private function createItems(Request $request, $sale_id)
+    {
+        $total_price = 0;
+        $products = $request->input('sale.products');
+
+        if (! empty($products)) {
+            foreach($products['id'] as $key => $id) {
+                $product = Product::find($id);
+                if (! isset($products['quantity'][$key]) || ! $product->count()) {
+                    continue;
+                }
+
+                SaleItem::create([
+                    'product_id' => $id,
+                    'sale_id'    => $sale_id,
+                    'quantity'   => $products['quantity'][$key],
+                    'product_price' => (float) $product->price
+                ]);
+
+                $total_price += (float) $product->price * (float) $products['quantity'][$key];
+            }
+        }
+
+        return $total_price;
+    }
+
 
     /**
      * Display the specified resource.

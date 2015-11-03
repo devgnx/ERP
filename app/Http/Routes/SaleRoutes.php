@@ -17,16 +17,6 @@ Route::group(['prefix' => 'sale'], function() {
         'uses' => 'SaleController@store'
     ]);
 
-    Route::get('{id}/edit', [
-        'as'   => 'sale.edit',
-        'uses' => 'SaleController@edit'
-    ]);
-
-    Route::post('{id}/edit', [
-        'as'   => 'sale.update',
-        'uses' => 'SaleController@update'
-    ]);
-
     Route::get('{id}', [
         'as'   => 'sale.show',
         'uses' => 'SaleController@show'

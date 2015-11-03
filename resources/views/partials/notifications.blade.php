@@ -1,4 +1,18 @@
 <aside class="ls-notification">
+  @if (!empty($newSales))
+    <nav class="ls-notification-list" id="ls-sale-curtain" style="left: 1716px;">
+      <h3 class="ls-title-2">Notificações</h3>
+      <ul>
+        @foreach($newSales as $notification)
+          <li class="ls-dismissable">
+            <a href="{{ $notification->url }}">{{ $notification->text }}</a>
+            <a href="#" data-ls-module="dismiss" class="ls-ico-close ls-close-notification"></a>
+          </li>
+        @endforeach
+      </ul>
+    </nav>
+  @endif
+
   <nav class="ls-notification-list" id="ls-notification-curtain" style="left: 1716px;">
     <h3 class="ls-title-2">Notificações</h3>
     <ul>

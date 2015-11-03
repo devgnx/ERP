@@ -148,7 +148,8 @@ return [
         /*
          * Custom Application Service Providers...
          */
-        'Fenos\Notifynder\NotifynderServiceProvider',
+        Fenos\Notifynder\NotifynderServiceProvider::class,
+        Gnxdev\NFe\NFeServiceProvider::class
     ],
 
     /*

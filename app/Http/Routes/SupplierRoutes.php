@@ -5,6 +5,11 @@ Route::get('suppliers', [
     'uses' => 'SupplierController@index'
 ]);
 
+Route::get('suppliers/filter', [
+    'as'   => 'supplier.filter',
+    'uses' => 'SupplierController@filter'
+]);
+
 Route::group(['prefix' => 'supplier'], function() {
 
     Route::bind('supplier_slug', function($slug) {

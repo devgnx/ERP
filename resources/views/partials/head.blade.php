@@ -6,7 +6,8 @@
 
 <title>{{ $store->title }}</title>
 
-<link rel="stylesheet" href="{{ url('/') }}/css/app.min.css">
+<link rel="stylesheet" href="{{ url('/css/app.min.css') }}">
+@yield('styles')
 
 @yield('head')
 

@@ -1,0 +1,13 @@
+{
+    "name": "gnxdev/nfe",
+    "description": "eInvoice manager",
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "authors": [
+        {
+            "name": "André Gonçalves",
+            "email": "dev.andregnx@gmail.com"
+        }
+    ]
+}

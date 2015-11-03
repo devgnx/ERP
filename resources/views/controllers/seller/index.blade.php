@@ -3,10 +3,6 @@
 @section('content')
   <div class="container-fluid">
     @include('partials.messages')
-    <a class="btn btn-success" href="{{ route('seller.create') }}">
-      {{-- svg icon --}}
-      Adicionar Vendedor
-    </a>
     <table class="ls-table" data-ls-module="form">
       <thead>
         <tr>

@@ -2,6 +2,7 @@
 <html lang="en" class="ls-theme-light-green">
 <head>
   @include('partials.head')
+  <link rel="stylesheet" href="{{ url('/') }}/css/login.min.css">
 </head>
 <body>
   <!--[if lt IE 10]>
