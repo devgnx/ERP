@@ -21,7 +21,7 @@ class Seller extends Eloquent
         return $this->hasMany(Sale::class);
     }
 
-    public function saleItem()
+    public function saleItems()
     {
         return $this->hasManyThrough(SaleItem::class, Sale::class);
     }

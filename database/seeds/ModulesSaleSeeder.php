@@ -26,7 +26,7 @@ class ModulesSaleSeeder extends Seeder
                 'state_province' => $faker->state,
                 'country'  => $faker->country,
                 'postcode' => $faker->postcode,
-                'shipping_price' => rand(5, 40) . ',' . rand(0, 99)
+                'price' => rand(5, 40) . ',' . rand(0, 99)
             ])->id;
 
 

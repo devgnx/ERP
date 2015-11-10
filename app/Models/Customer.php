@@ -3,11 +3,23 @@ namespace App\Models;
 
 use Eloquent;
 use App\Models\Sale;
+use App\Models\CustomerType;
+use App\Models\CustomerTypeGroup;
 use App\Models\CustomerAddress;
 
 class Customer extends Eloquent
 {
     protected $table = 'module_customer';
+
+    public function type()
+    {
+        return $this->belongsTo(CustomerType::class, 'type_id');
+    }
+
+    public function group()
+    {
+        return $this->type()->belongsTo(CustomerTypeGroup::class, 'group_id');
+    }
 
     public function address()
     {

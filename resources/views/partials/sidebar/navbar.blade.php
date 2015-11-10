@@ -39,7 +39,7 @@
     </li>
 
     <li @if (is_current_route('customer')) class="ls-active" @endif>
-      <a href="{{ route('seller.index') }}">
+      <a href="{{ route('customer.index') }}">
         <svg class="hs-svg-icon"><use xlink:href="#icon-users" /></svg>
         Clientes
       </a>

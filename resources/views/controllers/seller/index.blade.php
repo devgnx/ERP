@@ -28,17 +28,10 @@
       </tbody>
     </table>
 
-    <div class="ls-pagination-filter">
-      <ul class="ls-pagination">
-        <li><a href="#">&laquo; Anterior</a></li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><span class="ls-gap">...</span></li>
-        <li><a href="#">Próximo &raquo;</a></li>
-      </ul>
-    </div>
+    @if ($sellers->hasPages())
+      <div class="ls-pagination-filter">
+        {!! $paginate !!}
+      </div>
+    @endif
   </div>
 @endsection
