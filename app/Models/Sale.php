@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Customer;
 use App\Models\SaleShipping as Shipping;
 use App\Models\Seller;
+use App\Models\SaleStatus;
 use App\Models\SaleItem;
 use App\Models\Product;
 use App\Models\ProductCategory as Category;
@@ -20,6 +21,11 @@ class Sale extends Eloquent
 {
     protected $table    = 'module_sale';
     protected $fillable = ['seller_id', 'customer_id', 'shipping_id', 'subtotal_price', 'total_price'];
+
+    public function status()
+    {
+        return $this->belongsTo(SaleStatus::class, 'status_id');
+    }
 
     public function seller()
     {
@@ -66,7 +72,7 @@ class Sale extends Eloquent
 
     public function scopeFull($query)
     {
-        return $query->with(['items.product', 'customer', 'shipping.address']);
+        return $query->with(['items.product', 'customer', 'shipping']);
     }
 
     public function scopeProducts($query)

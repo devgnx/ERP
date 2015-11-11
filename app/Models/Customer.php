@@ -18,7 +18,13 @@ class Customer extends Eloquent
 
     public function group()
     {
-        return $this->type()->belongsTo(CustomerTypeGroup::class, 'group_id');
+        $type = $this->type()->getResults();
+        return $type->belongsTo(CustomerTypeGroup::class, 'group_id');
+    }
+
+    public function mainAddress()
+    {
+        return $this->address()->where('main', '=', 1);
     }
 
     public function address()
@@ -31,14 +37,20 @@ class Customer extends Eloquent
         return $this->hasMany(Sale::class, 'customer_id');
     }
 
+    public function getMainAddressAttribute()
+    {
+        return $this->mainAddress()->getResults()->first();
+    }
+
     public function getFullAddressAttribute()
     {
-        $address = $this->address->street;
-        $address.= ' ' . $this->address->street_number;
-        $address.= ' ' . $this->address->state_province;
-        $address.= ' ' . $this->address->country;
-        $address.= ' ' . $this->address->postcode;
+        $address = $this->mainAddress->street;
+        $address.= ' ' . $this->mainAddress->street_number;
+        $address.= ' ' . $this->mainAddress->state_province;
+        $address.= ' ' . $this->mainAddress->country;
+        $address.= ' ' . $this->mainAddress->postcode;
 
         return $address;
     }
 }
+;

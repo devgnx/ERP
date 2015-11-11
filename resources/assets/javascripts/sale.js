@@ -1,13 +1,4 @@
 ;(function ( $, window, document, undefined ) {
-
-  function fixSaleOrderItemColspan() {
-    if ( $('html').attr('class').match('ls-screen-xs|ls-screen-sm') ) {
-      $('.hs-table-sale-order-item').children('td').attr('colspan', 3);
-    } else {
-      $('.hs-table-sale-order-item').children('td').attr('colspan', 5);
-    }
-  }
-
   $(document).ready(function() {
     if (!!$.fn.product) {
       var $totalPrice = $('.hs-product-sale-total-price'),
@@ -59,8 +50,5 @@
       $tableSaleOrderItemTrigger.not( this ).removeClass('hs-active');
       $(this).toggleClass('hs-active');
     });
-
-    setTimeout(fixSaleOrderItemColspan, 800);
-    $(window).on('breakpoint-updated', fixSaleOrderItemColspan);
   });
 })( jQuery, window, document );

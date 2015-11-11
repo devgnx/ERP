@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\ViewTrait;
 use App\Models\Customer;
 use App\Models\CustomerType;
+use App\Models\CustomerTypeGroup;
 
 class CustomerController extends Controller
 {
@@ -32,15 +33,6 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        dd($this->customer(1)->type);
-        dd($this->customer(1)->group);
-
-        dd(CustomerType::find(1)->customer);
-        dd(CustomerType::find(1)->group);
-
-        dd(CustomerTypeGroup::find(1)->customer);
-        dd(CustomerTypeGroup::find(1)->types);
-
         $customers = $this->customer->paginate(15);
         return view($this->viewFolder . 'index', [
             'customers'  => $customers,

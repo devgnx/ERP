@@ -19,6 +19,11 @@ class CustomerAddress extends Eloquent
         return $this->hasMany(SaleShipping::class);
     }
 
+    public function scopeMain($query)
+    {
+        return $query->where('main', '=', 1);
+    }
+
     public function getFullAddressAttribute()
     {
         $address = $this->street;
@@ -30,4 +35,3 @@ class CustomerAddress extends Eloquent
         return $address;
     }
 }
-

@@ -18,6 +18,6 @@ class CustomerType extends Model
 
     public function group()
     {
-        return $this->type()->belongsTo(CustomerTypeGroup::class, 'group_id');
+        return $this->belongsTo(CustomerTypeGroup::class, 'group_id');
     }
 }

@@ -2,29 +2,29 @@
 
 Route::get('customers', [
     'as'   => 'customer.index',
-    'uses' => 'SaleController@index'
+    'uses' => 'CustomerController@index'
 ]);
 
 Route::group(['prefix' => 'customer'], function() {
 
     Route::get('create', [
         'as'   => 'customer.create',
-        'uses' => 'SaleController@create'
+        'uses' => 'CustomerController@create'
     ]);
 
     Route::post('create', [
         'as'   => 'customer.store',
-        'uses' => 'SaleController@store'
+        'uses' => 'CustomerController@store'
     ]);
 
     Route::get('{id}/edit', [
         'as'   => 'customer.edit',
-        'uses' => 'SaleController@edit'
+        'uses' => 'CustomerController@edit'
     ]);
 
     Route::post('{id}/edit', [
         'as'   => 'customer.update',
-        'uses' => 'SaleController@update'
+        'uses' => 'CustomerController@update'
     ]);
 
     Route::get('{id}', [

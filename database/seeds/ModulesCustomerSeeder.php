@@ -19,6 +19,7 @@ class ModulesCustomerSeeder extends Seeder
     {
         $faker = Faker::create();
         $faker->addProvider(new \Faker\Provider\pt_BR\Person($faker));
+        $faker->addProvider(new \Faker\Provider\pt_BR\PhoneNumber($faker));
 
         $gender = ['male', 'female'];
         $types_length = 13;
@@ -55,7 +56,8 @@ class ModulesCustomerSeeder extends Seeder
                     'street_number'  => $faker->buildingNumber,
                     'state_province' => $faker->state,
                     'country'  => $faker->country,
-                    'postcode' => $faker->postcode
+                    'postcode' => $faker->postcode,
+                    'main' => $x == 0 ? 1 : null
                 ]);
             }
         }

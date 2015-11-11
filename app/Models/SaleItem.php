@@ -8,7 +8,6 @@ use App\Models\Seller;
 use App\Models\Product;
 use App\Models\Customer;
 
-
 class SaleItem extends Eloquent
 {
     protected $table    = 'module_sale_item';

@@ -37,11 +37,17 @@ class CreateSaleModules extends Migration
             $table->decimal('price', 10, 2)->nullable();
         });
 
+        Schema::create('module_sale_status', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+        });
+
         Schema::create('module_sale', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('seller_id')->unsigned();
             $table->integer('customer_id')->unsigned()->nullable();
             $table->integer('shipping_id')->unsigned()->nullable();
+            $table->integer('status_id')->unsigned()->nullable();
             $table->decimal('subtotal_price', 10, 2);
             $table->decimal('total_price', 10, 2);
             $table->timestamps();
@@ -57,6 +63,10 @@ class CreateSaleModules extends Migration
             $table->foreign('shipping_id')
                 ->references('id')
                 ->on('module_sale_shipping');
+
+            $table->foreign('status_id')
+                ->references('id')
+                ->on('module_sale_status');
         });
 
         Schema::create('module_sale_item', function(Blueprint $table) {

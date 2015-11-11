@@ -1,10 +1,13 @@
 @import "../vendor/bourbon/app/assets/stylesheets/_bourbon.scss";
 
-.hs-table-sale-order {
-  &s thead th:last-child {
+.hs-table-sale-orders {
+  table-layout: auto;
+  thead th:last-child {
     min-width: 90px;
   }
+}
 
+.hs-table-sale-order {
   .hs-svg-icon {
     width: 20px;
     height: 20px;
@@ -19,6 +22,15 @@
 
   .hs-svg-icon:last-child {
     display: none;
+  }
+
+  &-item {
+    background-color: #1d937b;
+    background-color: rgba(29,147,123,.02);
+  }
+
+  &-item.ls-display-none {
+    background-color: transparent;
   }
 
   &-item table {

@@ -71,14 +71,14 @@
         @foreach($sales as $key => $order)
           <tr class="hs-table-sale-order">
             <td>
-              <a href="{{ route('sale.edit', ['id' => $order->id]) }}" title="Ver venda">
+              <a href="{{ route('sale.show', ['id' => $order->id]) }}" title="Ver venda">
                 {{ $order->seller->name }}
               </a>
             </td>
             <td class="ls-display-none-sm ls-display-none-xs">
               <a href="{{ route('customer.edit', ['id' => $order->customer->id]) }}" title="Ver produto">
                 <p>{{ $order->customer->phone }}</p>
-                <p>{{ $order->shipping->address->full_address }}</p>
+                <p>{{ $order->shipping->full_address }}</p>
               </a>
             </td>
             <td class="ls-display-none-sm ls-display-none-xs">
@@ -98,7 +98,10 @@
                 <thead>
                   <tr>
                     <th>Produto</th>
-                    <th class="ls-width-50">Quantidade</th>
+                    <th class="ls-width-50">
+                        <span class="ls-display-none-md ls-display-none-lg">Qtd.</span>
+                        <span class="ls-display-none-sm ls-display-none-xs">Quantidade</span>
+                    </th>
                     <th>Preço</th>
                   </tr>
                 </thead>

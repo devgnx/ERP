@@ -18,6 +18,6 @@ class CustomerTypeGroup extends Model
 
     public function customers()
     {
-        return $this->hasManyThrough(Customer::class, CustomerType::class);
+        return $this->hasManyThrough(Customer::class, CustomerType::class, 'group_id', 'type_id');
     }
 }

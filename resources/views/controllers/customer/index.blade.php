@@ -22,7 +22,7 @@
             <td>
               <a href="{{ route('customer.edit', ['id' => $customer->id]) }}">
                 <p>{{ $customer->phone }}</p>
-                <p class="ls-screen-md ls-screen-lg">{{ $customer->address_full }}</p>
+                <p class="ls-screen-md ls-screen-lg">{{ $customer->full_address }}</p>
               </a>
             </td>
           </tr>

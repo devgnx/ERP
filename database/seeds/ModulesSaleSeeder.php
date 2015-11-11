@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Models\Product;
 use App\Models\Sale;
+use App\Models\SaleStatus;
 use App\Models\SaleItem;
 use App\Models\SaleShipping;
 
@@ -18,6 +19,19 @@ class ModulesSaleSeeder extends Seeder
     {
         $faker = Faker::create();
         $weeks = ['add', 'sub'];
+
+        $status_array = [
+            ['name' => 'aberto',     'code' => 'o'],
+            ['name' => 'enviado',    'code' => 's'],
+            ['name' => 'finalizado', 'code' => 'c']
+        ];
+
+        foreach ($status_array as $status) {
+            SaleStatus::create([
+                'name' => $status['name'],
+                'code' => $status['code']
+            ]);
+        }
 
         for ($i = 0; $i < 400; $i++) {
             $shipping_id = SaleShipping::create([
@@ -34,6 +48,7 @@ class ModulesSaleSeeder extends Seeder
                 'seller_id'   => rand(1, 5),
                 'customer_id' => rand(1, 10),
                 'shipping_id' => $shipping_id,
+                'status_id'   => rand(1, count($status_array)),
                 'subtotal_price' => $faker->randomFloat(2, 0, 1000),
                 'total_price' =>$faker->randomFloat(2, 0, 1000),
                 'created_at'  => Carbon\Carbon::now()->{$weeks[ rand(0,1) ] . 'Days'}(rand(0, 20))

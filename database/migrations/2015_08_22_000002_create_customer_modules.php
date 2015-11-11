@@ -48,6 +48,7 @@ class CreateCustomerModules extends Migration
             $table->string('state_province');
             $table->string('country');
             $table->string('postcode');
+            $table->integer('main')->nullable();
             $table->timestamps();
 
             $table->foreign('customer_id')
