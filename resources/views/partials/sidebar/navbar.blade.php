@@ -12,7 +12,7 @@
               Nova Venda
           </a>
         </li>
-        <li @if (is_current_route('sale')) class="ls-active" @endif>
+        <li @if (is_current_route('sale.index')) class="ls-active" @endif>
           <a href="{{ route('sale.index') }}">
               <svg class="hs-svg-icon"><use xlink:href="#icon-coins" /></svg>
               Histórico de Vendas

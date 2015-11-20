@@ -30,6 +30,7 @@ class CreateSaleModules extends Migration
             $table->increments('id');
             $table->string('street');
             $table->string('street_number');
+            $table->string('city');
             $table->string('state_province');
             $table->string('country');
             $table->string('postcode');
@@ -40,6 +41,7 @@ class CreateSaleModules extends Migration
         Schema::create('module_sale_status', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->char('code', 3);
         });
 
         Schema::create('module_sale', function (Blueprint $table) {
@@ -95,6 +97,7 @@ class CreateSaleModules extends Migration
     {
         Schema::drop('module_sale_item');
         Schema::drop('module_sale');
+        Schema::drop('module_sale_status');
         Schema::drop('module_sale_shipping');
         Schema::drop('module_seller');
     }

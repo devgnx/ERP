@@ -23,7 +23,6 @@ class CustomerController extends Controller
         $this->middleware('auth');
         $this->customer = $customer;
         $this->fixViewFolder($this->viewFolder);
-
     }
 
     /**
@@ -59,7 +58,18 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $customer = $request->input('customer');
+        $customer_id = Customer::create([
+            'name'  => $customer->name,
+            'email' => $customer->email,
+            'phone' => $customer->phone,
+            'cpf_cnpj' => $customer->cpf_cnpj,
+            'type_id' => $customer->type_id,
+        ])->id;
+
+        return redirect()
+            ->route('customer.edit', ['id' => $customer_id])
+            ->with('status', ['success' => 'Venda fechada']);
     }
 
     /**

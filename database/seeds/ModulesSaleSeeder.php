@@ -18,12 +18,14 @@ class ModulesSaleSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
+        $faker->addProvider(new \Faker\Provider\pt_BR\Address($faker));
+
         $weeks = ['add', 'sub'];
 
         $status_array = [
-            ['name' => 'aberto',     'code' => 'o'],
-            ['name' => 'enviado',    'code' => 's'],
-            ['name' => 'finalizado', 'code' => 'c']
+            ['name' => 'Aberto',     'code' => 'OPN'],
+            ['name' => 'Enviado',    'code' => 'SND'],
+            ['name' => 'Finalizado', 'code' => 'CLD']
         ];
 
         foreach ($status_array as $status) {
@@ -37,7 +39,8 @@ class ModulesSaleSeeder extends Seeder
             $shipping_id = SaleShipping::create([
                 'street' => $faker->streetName,
                 'street_number'  => $faker->buildingNumber,
-                'state_province' => $faker->state,
+                'city'  => $faker->city,
+                'state_province' => $faker->stateAbbr,
                 'country'  => $faker->country,
                 'postcode' => $faker->postcode,
                 'price' => rand(5, 40) . ',' . rand(0, 99)

@@ -26,11 +26,24 @@
           <label class="ls-label col-md-4">
             <b class="ls-label-text">Vendedor</b>
             <div class="ls-prefix-group">
-              <input class="hs-seller-load-name ls-field" data-url="{{ route('seller.load') }}" value="{{ $seller->name }}" type="text" required>
+              <input class="hs-seller-load-name ls-field" data-url="{{ route('seller.load') }}" value="{{ $seller->name }}" type="text" placeholder="Digite o código ou nome do vendedor" required>
               <input class="hs-seller-load-id" name="sale[seller][id]" value="{{ old('seller.id') ?: $seller->id }}" type="hidden" required>
               <a href="#" class="ls-label-text-prefix ls-ico-search"></a>
             </div>
           </label>
+
+          <label class="ls-label col-md-4">
+            <b class="ls-label-text">Comprador</b>
+            <div class="ls-prefix-group">
+              <input class="hs-customer-load-name ls-field" data-url="{{ route('seller.load') }}" value="{{ $seller->name }}" type="text" placeholder="Busque por CPF/CNPJ ou nome" required>
+              <input class="hs-customer-load-id" name="sale[customer][id]" value="{{ old('seller.id') ?: $seller->id }}" type="hidden" required>
+              <a href="#" class="ls-label-text-prefix ls-ico-search"></a>
+            </div>
+          </label>
+
+          <div class="ls-label-col-md-3">
+            <button data-ls-module="modal" data-target="#hs-create-customer-modal" class="ls-btn-primary"> Criar novo comprador </button>
+          </div>
 
           @foreach(is_array(old('product')) ? old('product') : [['id' => '', 'name' => '', 'quantity' => '1', 'price' => '']] as $product)
             <div class="hs-product-sale-fields-group ls-clearfix">
@@ -96,7 +109,8 @@
     </div>
   </div>
 
-  @include('controllers.sale.product-sale-fields-templates')
+  @include('controllers.sale.handlebars-templates')
+  @include('controllers.sale.create-customer-modal')
 @endsection
 
 @section('scripts')

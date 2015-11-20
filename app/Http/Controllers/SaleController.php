@@ -10,6 +10,7 @@ use App\Http\Controllers\Traits\ViewTrait;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\Product;
+use App\Models\CustomerType;
 
 class SaleController extends Controller
 {
@@ -46,7 +47,9 @@ class SaleController extends Controller
      */
     public function create()
     {
-        return view($this->viewFolder . 'create');
+        return view($this->viewFolder . 'create', [
+            'customer_types' => CustomerType::all()
+        ]);
     }
 
     /**
@@ -57,6 +60,12 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
+        $custmer_id = null;
+
+        if ($request->input('sale.customer.id')) {
+
+        }
+
         $sale_id = Sale::create([
             'seller_id'   => $request->input('sale.seller.id'),
             'customer_id' => $request->input('sale.customer.id'),

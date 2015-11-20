@@ -24,13 +24,18 @@ class CustomerAddress extends Eloquent
         return $query->where('main', '=', 1);
     }
 
-    public function getFullAddressAttribute()
+    public function getFullAddressAttribute($but_not = ['country'])
     {
-        $address = $this->street;
-        $address.= ' ' . $this->street_number;
-        $address.= ' ' . $this->state_province;
-        $address.= ' ' . $this->country;
-        $address.= ' ' . $this->postcode;
+        if ($but_not === null) $but_not = ['country'];
+
+        $address = '';
+        $attributes = ['street', 'street_number', 'city', 'state_province', 'country', 'postcode'];
+        $attributes = array_values( array_diff($attributes, $but_not) );
+
+        foreach ($attributes as $key => $attribute) {
+            if ($key == 0) $address = $this->{$attribute};
+            else $address.= ' ' . $this->{$attribute};
+        }
 
         return $address;
     }

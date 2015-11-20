@@ -1,5 +1,23 @@
 ;(function ( $, window, document, undefined ) {
   $(document).ready(function() {
+    var $customerName = $('.hs-customer-load-name'),
+        $customerId   = $('.hs-customer-load-id'),
+        $customerStepsTemplate = $('#hs-create-customer-steps-template'),
+        $customerPersonTemplate = $('#hs-create-customer-person-template');
+        $customerCompanyTemplate = $('#hs-create-customer-company-template');
+
+    $('body').on('modal:opened', '#hs-create-customer-modal', function(evt, button) {
+      var template = $customerFieldsTemplate.html();
+      $(this).find('#hs-crete-customer-modal-body').html( template );
+    });
+
+    $customerName.autocomplete({
+      serviceUrl: $customerName.data('url'),
+      onSelect: function( value ) {
+        $customerId.val( value.data ).trigger('change');
+      }
+    });
+
     if (!!$.fn.product) {
       var $totalPrice = $('.hs-product-sale-total-price'),
           $sellerName = $('.hs-seller-load-name'),
